@@ -1,0 +1,4 @@
+packages:
+  - "front-end/admin"
+  - "front-end/users"
+  - "servers"
