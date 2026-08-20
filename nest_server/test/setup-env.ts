@@ -1,0 +1,12 @@
+process.env.NODE_ENV = 'test';
+process.env.PORT = '3000';
+process.env.DATABASE_URL = 'postgresql://test:test@localhost:5433/test';
+process.env.JWT_ACCESS_SECRET = 'test-access-secret-with-at-least-32-characters';
+process.env.JWT_REFRESH_SECRET = 'test-refresh-secret-with-at-least-32-characters';
+process.env.JWT_ACCESS_TTL = '15m';
+process.env.JWT_REFRESH_TTL = '30d';
+process.env.LLM_API_KEY = '';
+process.env.LLM_BASE_URL = '';
+process.env.LLM_MODEL = '';
+process.env.CORS_ORIGINS = 'http://localhost:5173';
+process.env.LOG_LEVEL = 'silent';

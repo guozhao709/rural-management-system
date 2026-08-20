@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:18.4-alpine
+    container_name: zhixiang-v2-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: zhixiang_v2
+      POSTGRES_USER: zhixiang
+      POSTGRES_PASSWORD: zhixiang_dev_password
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U zhixiang -d zhixiang_v2']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres_data:
