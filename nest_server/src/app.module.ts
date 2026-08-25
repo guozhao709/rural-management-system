@@ -4,13 +4,20 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ResponseEnvelopeInterceptor } from './common/interceptors/response-envelope.interceptor';
 import { LoggerModule } from './common/logger/logger.module';
-import { aiConfig, appConfig, authConfig, databaseConfig } from './config/configuration';
+import {
+  aiConfig,
+  appConfig,
+  authConfig,
+  databaseConfig,
+  residentHealthConfig,
+} from './config/configuration';
 import { environmentValidationSchema } from './config/environment.validation';
 import { HealthModule } from './health/health.module';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AdminsModule } from './modules/admins/admins.module';
 import { UsersModule } from './modules/users/users.module';
+import { ResidentHealthModule } from './modules/resident-health/resident-health.module';
 
 @Module({
   imports: [
@@ -18,7 +25,7 @@ import { UsersModule } from './modules/users/users.module';
       isGlobal: true,
       cache: true,
       expandVariables: false,
-      load: [appConfig, databaseConfig, authConfig, aiConfig],
+      load: [appConfig, databaseConfig, authConfig, aiConfig, residentHealthConfig],
       validationSchema: environmentValidationSchema,
       validationOptions: {
         allowUnknown: true,
@@ -31,6 +38,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     AdminsModule,
     UsersModule,
+    ResidentHealthModule,
   ],
   providers: [
     {

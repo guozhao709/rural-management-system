@@ -30,3 +30,14 @@ export const aiConfig = registerAs('ai', () => ({
   baseUrl: process.env.LLM_BASE_URL ?? '',
   model: process.env.LLM_MODEL ?? '',
 }));
+
+export const residentHealthConfig = registerAs('residentHealth', () => ({
+  assessmentEnabled: process.env.HEALTH_ASSESSMENT_ENABLED === 'true',
+  aiExplanationEnabled: process.env.HEALTH_AI_EXPLANATION_ENABLED === 'true',
+  assessmentDailyLimit: Number(process.env.HEALTH_ASSESSMENT_DAILY_LIMIT ?? 5),
+  knowledgeLimit: Number(process.env.HEALTH_KNOWLEDGE_LIMIT ?? 6),
+  retentionDays: Number(process.env.HEALTH_DATA_RETENTION_DAYS ?? 365),
+  rulesetVersion: process.env.HEALTH_RULESET_VERSION ?? '',
+  encryptionKey: process.env.HEALTH_DATA_ENCRYPTION_KEY ?? '',
+  legacyRoutesEnabled: process.env.HEALTH_LEGACY_ROUTES_ENABLED === 'true',
+}));
