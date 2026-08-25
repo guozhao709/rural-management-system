@@ -41,3 +41,11 @@ export const residentHealthConfig = registerAs('residentHealth', () => ({
   encryptionKey: process.env.HEALTH_DATA_ENCRYPTION_KEY ?? '',
   legacyRoutesEnabled: process.env.HEALTH_LEGACY_ROUTES_ENABLED === 'true',
 }));
+
+export const agricultureConfig = registerAs('agriculture', () => ({
+  analysisEnabled: process.env.AGRICULTURE_ANALYSIS_ENABLED !== 'false',
+  analysisDailyLimit: Number(process.env.AGRICULTURE_ANALYSIS_DAILY_LIMIT ?? 10),
+  knowledgeLimit: Number(process.env.AGRICULTURE_KNOWLEDGE_LIMIT ?? 8),
+  llmTimeoutMs: Number(process.env.LLM_TIMEOUT_MS ?? 30000),
+  llmMaxRetries: Number(process.env.LLM_MAX_RETRIES ?? 1),
+}));

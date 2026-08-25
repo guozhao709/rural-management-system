@@ -41,6 +41,11 @@ export const environmentValidationSchema = Joi.object({
   LLM_API_KEY: Joi.string().allow('').default(''),
   LLM_BASE_URL: Joi.string().uri().allow('').default(''),
   LLM_MODEL: Joi.string().allow('').default(''),
+  AGRICULTURE_ANALYSIS_ENABLED: Joi.boolean().default(true),
+  AGRICULTURE_ANALYSIS_DAILY_LIMIT: Joi.number().integer().min(1).max(100).default(10),
+  AGRICULTURE_KNOWLEDGE_LIMIT: Joi.number().integer().min(0).max(20).default(8),
+  LLM_TIMEOUT_MS: Joi.number().integer().min(1000).max(120000).default(30000),
+  LLM_MAX_RETRIES: Joi.number().integer().min(0).max(1).default(1),
   CORS_ORIGINS: corsOrigins,
   LOG_LEVEL: Joi.string()
     .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent')

@@ -5,6 +5,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ResponseEnvelopeInterceptor } from './common/interceptors/response-envelope.interceptor';
 import { LoggerModule } from './common/logger/logger.module';
 import {
+  agricultureConfig,
   aiConfig,
   appConfig,
   authConfig,
@@ -18,6 +19,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AdminsModule } from './modules/admins/admins.module';
 import { UsersModule } from './modules/users/users.module';
 import { ResidentHealthModule } from './modules/resident-health/resident-health.module';
+import { AgricultureModule } from './modules/agriculture/agriculture.module';
 
 @Module({
   imports: [
@@ -25,7 +27,14 @@ import { ResidentHealthModule } from './modules/resident-health/resident-health.
       isGlobal: true,
       cache: true,
       expandVariables: false,
-      load: [appConfig, databaseConfig, authConfig, aiConfig, residentHealthConfig],
+      load: [
+        appConfig,
+        databaseConfig,
+        authConfig,
+        aiConfig,
+        residentHealthConfig,
+        agricultureConfig,
+      ],
       validationSchema: environmentValidationSchema,
       validationOptions: {
         allowUnknown: true,
@@ -39,6 +48,7 @@ import { ResidentHealthModule } from './modules/resident-health/resident-health.
     AdminsModule,
     UsersModule,
     ResidentHealthModule,
+    AgricultureModule,
   ],
   providers: [
     {

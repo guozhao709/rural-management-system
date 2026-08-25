@@ -19,6 +19,9 @@ import { User, UserGender } from '../src/modules/users/user.entity';
 import { UsersService } from '../src/modules/users/users.service';
 import { ResidentHealthService } from '../src/modules/resident-health/resident-health.service';
 import { HealthKnowledgeService } from '../src/modules/resident-health/health-knowledge.service';
+import { AgricultureAnalysisService } from '../src/modules/agriculture/services/agriculture-analysis.service';
+import { AgricultureKnowledgeService } from '../src/modules/agriculture/services/agriculture-knowledge.service';
+import { CropCatalogService } from '../src/modules/agriculture/services/crop-catalog.service';
 
 describe('Application (e2e)', () => {
   let app: INestApplication;
@@ -118,6 +121,12 @@ describe('Application (e2e)', () => {
       .useValue(healthKnowledgeService)
       .overrideProvider(AuthService)
       .useValue(authService)
+      .overrideProvider(CropCatalogService)
+      .useValue({})
+      .overrideProvider(AgricultureKnowledgeService)
+      .useValue({})
+      .overrideProvider(AgricultureAnalysisService)
+      .useValue({})
       .compile();
 
     app = moduleFixture.createNestApplication({ bufferLogs: true });
