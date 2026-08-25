@@ -30,3 +30,11 @@ export const aiConfig = registerAs('ai', () => ({
   baseUrl: process.env.LLM_BASE_URL ?? '',
   model: process.env.LLM_MODEL ?? '',
 }));
+
+export const agricultureConfig = registerAs('agriculture', () => ({
+  analysisEnabled: process.env.AGRICULTURE_ANALYSIS_ENABLED !== 'false',
+  analysisDailyLimit: Number(process.env.AGRICULTURE_ANALYSIS_DAILY_LIMIT ?? 10),
+  knowledgeLimit: Number(process.env.AGRICULTURE_KNOWLEDGE_LIMIT ?? 8),
+  llmTimeoutMs: Number(process.env.LLM_TIMEOUT_MS ?? 30000),
+  llmMaxRetries: Number(process.env.LLM_MAX_RETRIES ?? 1),
+}));
