@@ -28,7 +28,10 @@
     "migration:up": "mikro-orm migration:up",
     "migration:down": "mikro-orm migration:down",
     "migration:list": "mikro-orm migration:list",
-    "seed:super-admin": "tsx scripts/seed-super-admin.ts"
+    "seed:super-admin": "tsx scripts/seed-super-admin.ts",
+    "seed:agriculture-crops": "tsx scripts/seed-agriculture-crops.ts",
+    "seed:agriculture-knowledge": "tsx scripts/seed-agriculture-knowledge.ts",
+    "verify:live-llm": "tsx scripts/verify-live-llm.ts"
   },
   "mikro-orm": {
     "configPaths": [

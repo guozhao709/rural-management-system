@@ -251,6 +251,1358 @@
       "comment": null
     },
     {
+      "name": "agriculture_crop_aliases",
+      "schema": "public",
+      "columns": {
+        "alias": {
+          "name": "alias",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "crop_id": {
+          "name": "crop_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "normalized_alias": {
+          "name": "normalized_alias",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "crop_id"
+          ],
+          "composite": false,
+          "constraint": false,
+          "keyName": "agriculture_crop_aliases_crop_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "normalized_alias"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_crop_aliases_normalized_alias_key",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_crop_aliases_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "agriculture_crop_aliases_crop_id_foreign": {
+          "columnNames": [
+            "crop_id"
+          ],
+          "constraintName": "agriculture_crop_aliases_crop_id_foreign",
+          "localTableName": "public.agriculture_crop_aliases",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.agriculture_crops",
+          "deleteRule": "restrict"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "agriculture_crops",
+      "schema": "public",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "varchar(64)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 64,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "scientific_name": {
+          "name": "scientific_name",
+          "type": "varchar(150)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 150,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(16)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 16,
+          "precision": null,
+          "scale": null,
+          "default": "'active'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "code"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_crops_code_key",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "name"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_crops_name_key",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_crops_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {},
+      "comment": null
+    },
+    {
+      "name": "agriculture_knowledge",
+      "schema": "public",
+      "columns": {
+        "category": {
+          "name": "category",
+          "type": "varchar(32)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 32,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "content_hash": {
+          "name": "content_hash",
+          "type": "varchar(64)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 64,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "is_general": {
+          "name": "is_general",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "false",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "published_by": {
+          "name": "published_by",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "region_codes": {
+          "name": "region_codes",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "'{}'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "array"
+        },
+        "source_name": {
+          "name": "source_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "source_url": {
+          "name": "source_url",
+          "type": "varchar(1000)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 1000,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(16)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 16,
+          "precision": null,
+          "scale": null,
+          "default": "'draft'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "summary": {
+          "name": "summary",
+          "type": "varchar(500)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 500,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "'{}'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "array"
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "valid_until": {
+          "name": "valid_until",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "date"
+        },
+        "version": {
+          "name": "version",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "1",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "agriculture_knowledge_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "status",
+            "published_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "agriculture_knowledge_published_at_index",
+          "primary": false,
+          "unique": false
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "agriculture_knowledge_created_by_fkey": {
+          "columnNames": [
+            "created_by"
+          ],
+          "constraintName": "agriculture_knowledge_created_by_fkey",
+          "localTableName": "public.agriculture_knowledge",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.admins"
+        },
+        "agriculture_knowledge_published_by_fkey": {
+          "columnNames": [
+            "published_by"
+          ],
+          "constraintName": "agriculture_knowledge_published_by_fkey",
+          "localTableName": "public.agriculture_knowledge",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.admins"
+        },
+        "agriculture_knowledge_updated_by_fkey": {
+          "columnNames": [
+            "updated_by"
+          ],
+          "constraintName": "agriculture_knowledge_updated_by_fkey",
+          "localTableName": "public.agriculture_knowledge",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.admins"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "agriculture_knowledge_crops",
+      "schema": "public",
+      "columns": {
+        "agriculture_knowledge_id": {
+          "name": "agriculture_knowledge_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "crop_id": {
+          "name": "crop_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "agriculture_knowledge_id",
+            "crop_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "keyName": "agriculture_knowledge_crops_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "agriculture_knowledge_crops_agriculture_knowledge_id_fkey": {
+          "columnNames": [
+            "agriculture_knowledge_id"
+          ],
+          "constraintName": "agriculture_knowledge_crops_agriculture_knowledge_id_fkey",
+          "localTableName": "public.agriculture_knowledge_crops",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.agriculture_knowledge",
+          "deleteRule": "cascade"
+        },
+        "agriculture_knowledge_crops_crop_id_fkey": {
+          "columnNames": [
+            "crop_id"
+          ],
+          "constraintName": "agriculture_knowledge_crops_crop_id_fkey",
+          "localTableName": "public.agriculture_knowledge_crops",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.agriculture_crops",
+          "deleteRule": "restrict"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "crop_analyses",
+      "schema": "public",
+      "columns": {
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "context_snapshot": {
+          "name": "context_snapshot",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "crop_id": {
+          "name": "crop_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "crop_name_snapshot": {
+          "name": "crop_name_snapshot",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "duration_ms": {
+          "name": "duration_ms",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "error_code": {
+          "name": "error_code",
+          "type": "varchar(64)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 64,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "error_message": {
+          "name": "error_message",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "bigint"
+        },
+        "input_snapshot": {
+          "name": "input_snapshot",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "model_name": {
+          "name": "model_name",
+          "type": "varchar(128)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 128,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "model_provider": {
+          "name": "model_provider",
+          "type": "varchar(64)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 64,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "prompt_version": {
+          "name": "prompt_version",
+          "type": "varchar(32)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 32,
+          "precision": null,
+          "scale": null,
+          "default": "'m08-v1'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "region_code": {
+          "name": "region_code",
+          "type": "varchar(32)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 32,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "region_name": {
+          "name": "region_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "result": {
+          "name": "result",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "schema_version": {
+          "name": "schema_version",
+          "type": "varchar(16)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 16,
+          "precision": null,
+          "scale": null,
+          "default": "'1.0'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(16)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 16,
+          "precision": null,
+          "scale": null,
+          "default": "'processing'",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "crop_analyses_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "status",
+            "created_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "crop_analyses_status_created_at_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "user_id",
+            "created_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "crop_analyses_user_id_created_at_index",
+          "primary": false,
+          "unique": false,
+          "columns": [
+            {
+              "name": "user_id"
+            },
+            {
+              "name": "created_at",
+              "sort": "DESC"
+            }
+          ]
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "crop_analyses_crop_id_fkey": {
+          "columnNames": [
+            "crop_id"
+          ],
+          "constraintName": "crop_analyses_crop_id_fkey",
+          "localTableName": "public.crop_analyses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.agriculture_crops",
+          "deleteRule": "restrict"
+        },
+        "crop_analyses_user_id_fkey": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "crop_analyses_user_id_fkey",
+          "localTableName": "public.crop_analyses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.users",
+          "deleteRule": "restrict"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "crop_analysis_knowledge_refs",
+      "schema": "public",
+      "columns": {
+        "analysis_id": {
+          "name": "analysis_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "bigint"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "knowledge_id": {
+          "name": "knowledge_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "knowledge_version": {
+          "name": "knowledge_version",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "score": {
+          "name": "score",
+          "type": "real",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "1",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "float"
+        },
+        "title_snapshot": {
+          "name": "title_snapshot",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "analysis_id",
+            "knowledge_id",
+            "knowledge_version"
+          ],
+          "composite": true,
+          "constraint": true,
+          "keyName": "crop_analysis_knowledge_refs_analysis_id_knowledge_id_knowl_key",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "crop_analysis_knowledge_refs_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "crop_analysis_knowledge_refs_analysis_id_fkey": {
+          "columnNames": [
+            "analysis_id"
+          ],
+          "constraintName": "crop_analysis_knowledge_refs_analysis_id_fkey",
+          "localTableName": "public.crop_analysis_knowledge_refs",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.crop_analyses",
+          "deleteRule": "cascade"
+        },
+        "crop_analysis_knowledge_refs_knowledge_id_fkey": {
+          "columnNames": [
+            "knowledge_id"
+          ],
+          "constraintName": "crop_analysis_knowledge_refs_knowledge_id_fkey",
+          "localTableName": "public.crop_analysis_knowledge_refs",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.agriculture_knowledge",
+          "deleteRule": "restrict"
+        }
+      },
+      "comment": null
+    },
+    {
       "name": "users",
       "schema": "public",
       "columns": {
