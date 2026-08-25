@@ -17,6 +17,8 @@ import { AdminsService } from '../src/modules/admins/admins.service';
 import { AuthService } from '../src/modules/auth/auth.service';
 import { User, UserGender } from '../src/modules/users/user.entity';
 import { UsersService } from '../src/modules/users/users.service';
+import { ResidentHealthService } from '../src/modules/resident-health/resident-health.service';
+import { HealthKnowledgeService } from '../src/modules/resident-health/health-knowledge.service';
 import { AgricultureAnalysisService } from '../src/modules/agriculture/services/agriculture-analysis.service';
 import { AgricultureKnowledgeService } from '../src/modules/agriculture/services/agriculture-knowledge.service';
 import { CropCatalogService } from '../src/modules/agriculture/services/crop-catalog.service';
@@ -58,6 +60,25 @@ describe('Application (e2e)', () => {
     update: jest.fn(),
     remove: jest.fn(),
   };
+  const residentHealthService = {
+    grantConsent: jest.fn(),
+    getCurrentConsent: jest.fn(),
+    revokeCurrentConsent: jest.fn(),
+    getProfile: jest.fn(),
+    updateProfile: jest.fn(),
+    createMeasurement: jest.fn(),
+    listMeasurements: jest.fn(),
+    deleteMeasurement: jest.fn(),
+  };
+  const healthKnowledgeService = {
+    createDraft: jest.fn(),
+    updateDraft: jest.fn(),
+    submitReview: jest.fn(),
+    publish: jest.fn(),
+    archive: jest.fn(),
+    list: jest.fn(),
+    reviewDue: jest.fn(),
+  };
   const authenticatedAdmin = Object.assign(new Admin(), {
     id: 99,
     username: 'root',
@@ -94,6 +115,10 @@ describe('Application (e2e)', () => {
       .useValue(adminsService)
       .overrideProvider(UsersService)
       .useValue(usersService)
+      .overrideProvider(ResidentHealthService)
+      .useValue(residentHealthService)
+      .overrideProvider(HealthKnowledgeService)
+      .useValue(healthKnowledgeService)
       .overrideProvider(AuthService)
       .useValue(authService)
       .overrideProvider(CropCatalogService)
@@ -126,6 +151,13 @@ describe('Application (e2e)', () => {
     usersService.findOne.mockResolvedValue(user);
     usersService.update.mockResolvedValue({ ...user, address: null });
     usersService.remove.mockResolvedValue(undefined);
+    residentHealthService.getCurrentConsent.mockResolvedValue(null);
+    residentHealthService.getProfile.mockResolvedValue({
+      medicalHistory: null,
+      allergies: null,
+      specialPopulation: null,
+      updatedAt: null,
+    });
     const userSession = {
       response: { accessToken: 'user-access-token', expiresIn: 900, user },
       refreshToken: 'user-refresh-token',
@@ -411,5 +443,38 @@ describe('Application (e2e)', () => {
       .get('/api/v2/auth/admin/me')
       .set('Authorization', 'Bearer user-token')
       .expect(401);
+  });
+
+  it('uses the authenticated user for health APIs and never accepts client ownership fields', async () => {
+    residentHealthService.grantConsent.mockResolvedValue({
+      id: '1',
+      noticeVersion: '1.0',
+      scopes: ['profile'],
+      grantedAt: new Date('2026-01-01'),
+    });
+    await request(httpServer)
+      .post('/api/v2/health/consents')
+      .set('Authorization', 'Bearer user-token')
+      .send({ noticeVersion: '1.0', scopes: ['profile'], userId: 999 })
+      .expect(400);
+    expect(residentHealthService.grantConsent).not.toHaveBeenCalled();
+    await request(httpServer)
+      .post('/api/v2/health/consents')
+      .set('Authorization', 'Bearer user-token')
+      .send({ noticeVersion: '1.0', scopes: ['profile'] })
+      .expect(201);
+    expect(residentHealthService.grantConsent).toHaveBeenCalledWith(
+      authenticatedUser,
+      expect.objectContaining({ noticeVersion: '1.0', scopes: ['profile'] }),
+    );
+
+    await request(httpServer)
+      .delete('/api/v2/health/measurements/other-user-id')
+      .set('Authorization', 'Bearer user-token')
+      .expect(204);
+    expect(residentHealthService.deleteMeasurement).toHaveBeenCalledWith(
+      authenticatedUser,
+      'other-user-id',
+    );
   });
 });

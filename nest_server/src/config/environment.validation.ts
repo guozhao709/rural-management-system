@@ -50,9 +50,30 @@ export const environmentValidationSchema = Joi.object({
   LOG_LEVEL: Joi.string()
     .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent')
     .default('info'),
+  HEALTH_ASSESSMENT_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
+  HEALTH_AI_EXPLANATION_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
+  HEALTH_ASSESSMENT_DAILY_LIMIT: Joi.number().integer().min(1).max(20).default(5),
+  HEALTH_KNOWLEDGE_LIMIT: Joi.number().integer().min(1).max(20).default(6),
+  HEALTH_DATA_RETENTION_DAYS: Joi.number().integer().min(30).max(3650).default(365),
+  HEALTH_RULESET_VERSION: Joi.string().max(100).allow('').default(''),
+  HEALTH_DATA_ENCRYPTION_KEY: Joi.string().allow('').default(''),
+  HEALTH_LEGACY_ROUTES_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
 }).custom((environment: Record<string, unknown>, helpers) => {
   if (environment.JWT_ACCESS_SECRET === environment.JWT_REFRESH_SECRET) {
     return helpers.message({ custom: 'JWT_ACCESS_SECRET must differ from JWT_REFRESH_SECRET' });
+  }
+  if (environment.HEALTH_ASSESSMENT_ENABLED === true) {
+    if (!environment.HEALTH_DATA_ENCRYPTION_KEY || !environment.HEALTH_RULESET_VERSION) {
+      return helpers.message({
+        custom:
+          'HEALTH_DATA_ENCRYPTION_KEY and HEALTH_RULESET_VERSION are required when HEALTH_ASSESSMENT_ENABLED is true',
+      });
+    }
+  }
+  if (environment.HEALTH_AI_EXPLANATION_ENABLED === true && !environment.LLM_API_KEY) {
+    return helpers.message({
+      custom: 'LLM_API_KEY is required when HEALTH_AI_EXPLANATION_ENABLED is true',
+    });
   }
 
   return environment;

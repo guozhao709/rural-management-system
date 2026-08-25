@@ -1,20 +1,9 @@
 import request from "@/api/request";
 import type { ApiResponse } from "@/api/types";
-import type {
-  HealthyAnalysisRequest,
-  HealthyAnalysisResponse,
-} from "@/modules/healthy/types";
+import type { CreateAssessmentRequest, HealthAssessmentResult } from "@/modules/healthy/types";
 
-// 获取个人健康分析
-export const getHealthyAnalysis = (
-  data: HealthyAnalysisRequest,
-): Promise<ApiResponse<HealthyAnalysisResponse>> => {
-  return request.post("/api/v1/user/healthy/info", data, { timeout: 180000 });
-};
-
-// 从数据库中获取最新的个人健康分析
-export const getHealthyAnalysisFromDB = (data: {
-  phone: string;
-}): Promise<ApiResponse<HealthyAnalysisResponse>> => {
-  return request.post("/api/v1/user/info/healthy", data);
-};
+// The authenticated request client provides identity; health requests never carry a user id or phone.
+export const createHealthAssessment = (data: CreateAssessmentRequest): Promise<ApiResponse<HealthAssessmentResult>> => request.post("/api/v2/health/assessments", data);
+export const getCurrentHealthConsent = (): Promise<ApiResponse<{ scopes: string[]; noticeVersion: string } | null>> => request.get("/api/v2/health/consents/current");
+export const grantHealthConsent = (data: { noticeVersion: string; scopes: string[] }) => request.post("/api/v2/health/consents", data);
+export const revokeHealthConsent = () => request.delete("/api/v2/health/consents/current");
