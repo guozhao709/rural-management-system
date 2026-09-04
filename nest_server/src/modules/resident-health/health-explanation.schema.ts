@@ -26,7 +26,7 @@ export const healthExplanationSchema = z
       )
       .max(6),
     limitations: textList.min(1),
-    aiGenerated: z.literal(true),
+    aiGenerated: z.boolean(),
     generatedAt: z.coerce.date(),
   })
   .strict();

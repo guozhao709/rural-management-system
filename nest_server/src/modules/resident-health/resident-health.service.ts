@@ -22,7 +22,8 @@ import { HealthConsent } from './entities/health-consent.entity';
 import { HealthMeasurement } from './entities/health-measurement.entity';
 import { HealthProfile } from './entities/health-profile.entity';
 import type { HealthConsentScope } from './resident-health.types';
-import { Inject } from '@nestjs/common';
+import { Inject, Optional } from '@nestjs/common';
+import { HealthAccessAuditService } from './health-access-audit.service';
 
 export interface HealthConsentPresenter {
   id: string;
@@ -55,6 +56,7 @@ export class ResidentHealthService {
     private readonly entityManager: EntityManager,
     @Inject(HEALTH_SENSITIVE_DATA_CRYPTO_PORT)
     private readonly crypto: HealthSensitiveDataCryptoPort | null,
+    @Optional() private readonly audit: HealthAccessAuditService | null = null,
   ) {}
 
   async grantConsent(user: User, dto: CreateHealthConsentDto): Promise<HealthConsentPresenter> {
@@ -76,11 +78,13 @@ export class ResidentHealthService {
       { partial: true },
     );
     await this.entityManager.flush();
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'grant', resourceType: 'health_consent', resourceId: consent.id, purpose: 'health_consent', outcome: 'success' });
     return this.presentConsent(consent);
   }
 
   async getCurrentConsent(user: User): Promise<HealthConsentPresenter | null> {
     const consent = await this.consents.findOne({ userId: user.id, revokedAt: null });
+    if (consent) await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'read', resourceType: 'health_consent', resourceId: consent.id, purpose: 'self_service', outcome: 'success' });
     return consent ? this.presentConsent(consent) : null;
   }
 
@@ -89,18 +93,21 @@ export class ResidentHealthService {
     if (!consent) throw new NotFoundException('当前健康同意不存在');
     consent.revokedAt = new Date();
     await this.entityManager.flush();
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'revoke', resourceType: 'health_consent', resourceId: consent.id, purpose: 'health_consent', outcome: 'success' });
   }
 
   async getProfile(user: User): Promise<HealthProfilePresenter> {
     const profile = await this.profiles.findOne({ userId: user.id });
     if (!profile)
       return { medicalHistory: null, allergies: null, specialPopulation: null, updatedAt: null };
-    return {
+    const result = {
       medicalHistory: this.decrypt(profile.medicalHistoryCiphertext),
       allergies: this.decrypt(profile.allergiesCiphertext),
       specialPopulation: this.decrypt(profile.specialPopulationCiphertext),
       updatedAt: profile.updatedAt,
     };
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'read', resourceType: 'health_profile', resourceId: user.id, purpose: 'self_service', outcome: 'success' });
+    return result;
   }
 
   async updateProfile(user: User, dto: UpdateHealthProfileDto): Promise<HealthProfilePresenter> {
@@ -114,6 +121,7 @@ export class ResidentHealthService {
     this.applyEncrypted(profile, 'specialPopulationCiphertext', dto, 'specialPopulation');
     profile.keyVersion = this.crypto.encrypt('').keyVersion;
     await this.entityManager.flush();
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'update', resourceType: 'health_profile', resourceId: user.id, purpose: 'self_service', outcome: 'success' });
     return this.getProfile(user);
   }
 
@@ -135,6 +143,7 @@ export class ResidentHealthService {
       { partial: true },
     );
     await this.entityManager.flush();
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'create', resourceType: 'health_measurement', resourceId: measurement.id, purpose: 'self_service', outcome: 'success' });
     return this.presentMeasurement(measurement);
   }
 
@@ -159,12 +168,14 @@ export class ResidentHealthService {
       offset: (query.page - 1) * query.pageSize,
       orderBy: { measuredAt: 'DESC' },
     });
-    return {
+    const result = {
       list: items.map((item) => this.presentMeasurement(item)),
       total,
       page: query.page,
       pageSize: query.pageSize,
     };
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'list', resourceType: 'health_measurement', resourceId: '*', purpose: 'self_service', outcome: 'success' });
+    return result;
   }
 
   async deleteMeasurement(user: User, id: string): Promise<void> {
@@ -172,6 +183,7 @@ export class ResidentHealthService {
     if (!measurement) throw new NotFoundException('健康测量不存在');
     measurement.deletedAt = new Date();
     await this.entityManager.flush();
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'delete', resourceType: 'health_measurement', resourceId: measurement.id, purpose: 'health_data_deletion', outcome: 'success' });
   }
 
   async measurementTrend(user: User, query: QueryHealthTrendsDto) {
@@ -181,7 +193,9 @@ export class ResidentHealthService {
       { userId: user.id, type: query.type, deletedAt: null, measuredAt: { $gte: from } },
       { orderBy: { measuredAt: 'ASC' } },
     );
-    return items.map((item) => this.presentMeasurement(item));
+    const result = items.map((item) => this.presentMeasurement(item));
+    await this.audit?.record({ actorType: 'user', actorId: user.id, action: 'read', resourceType: 'health_measurement_trend', resourceId: query.type, purpose: 'self_service', outcome: 'success' });
+    return result;
   }
 
   private async requireScope(userId: number, scope: HealthConsentScope): Promise<void> {

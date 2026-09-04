@@ -14,6 +14,7 @@ import type { QueryUserDto } from './dto/query-user.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
 import { UserListPresenter, UserPresenter } from './presenters/user.presenter';
 import { User, UserGender } from './user.entity';
+import { HealthDataLifecycleService } from '../resident-health/health-data-lifecycle.service';
 
 @Injectable()
 export class UsersService {
@@ -21,6 +22,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly users: EntityRepository<User>,
     private readonly entityManager: EntityManager,
+    private readonly healthLifecycle: HealthDataLifecycleService,
   ) {}
 
   async create(dto: CreateUserDto): Promise<UserPresenter> {
@@ -98,6 +100,7 @@ export class UsersService {
 
   async remove(id: number): Promise<void> {
     const user = await this.getActiveUser(id);
+    await this.healthLifecycle.purgeForUser(user.id);
     user.deletedAt = new Date();
     await this.entityManager.flush();
   }

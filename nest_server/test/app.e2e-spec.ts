@@ -19,6 +19,9 @@ import { User, UserGender } from '../src/modules/users/user.entity';
 import { UsersService } from '../src/modules/users/users.service';
 import { ResidentHealthService } from '../src/modules/resident-health/resident-health.service';
 import { HealthKnowledgeService } from '../src/modules/resident-health/health-knowledge.service';
+import { HealthAssessmentService } from '../src/modules/resident-health/health-assessment.service';
+import { HealthAccessAuditService } from '../src/modules/resident-health/health-access-audit.service';
+import { HealthDataLifecycleService } from '../src/modules/resident-health/health-data-lifecycle.service';
 import { AgricultureAnalysisService } from '../src/modules/agriculture/services/agriculture-analysis.service';
 import { AgricultureKnowledgeService } from '../src/modules/agriculture/services/agriculture-knowledge.service';
 import { CropCatalogService } from '../src/modules/agriculture/services/crop-catalog.service';
@@ -79,6 +82,11 @@ describe('Application (e2e)', () => {
     list: jest.fn(),
     reviewDue: jest.fn(),
   };
+  const healthAssessmentService = {
+    create: jest.fn(), list: jest.fn(), getOne: jest.fn(), remove: jest.fn(),
+  };
+  const healthAccessAuditService = { record: jest.fn() };
+  const healthDataLifecycleService = { purgeForUser: jest.fn(), purgeExpired: jest.fn() };
   const authenticatedAdmin = Object.assign(new Admin(), {
     id: 99,
     username: 'root',
@@ -119,6 +127,12 @@ describe('Application (e2e)', () => {
       .useValue(residentHealthService)
       .overrideProvider(HealthKnowledgeService)
       .useValue(healthKnowledgeService)
+      .overrideProvider(HealthAssessmentService)
+      .useValue(healthAssessmentService)
+      .overrideProvider(HealthAccessAuditService)
+      .useValue(healthAccessAuditService)
+      .overrideProvider(HealthDataLifecycleService)
+      .useValue(healthDataLifecycleService)
       .overrideProvider(AuthService)
       .useValue(authService)
       .overrideProvider(CropCatalogService)
