@@ -32,3 +32,6 @@ out/
 # OS files
 .DS_Store
 Thumbs.db
+
+.agents
+docs
