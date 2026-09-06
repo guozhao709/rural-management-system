@@ -4,7 +4,7 @@
 
 本文件定义 Frontend Scope 下的 Agent Policy。执行 Frontend Task 时，应同时遵循：
 
-`根 AGENTS.md + frontend/AGENTS.md + 相关 docs + Approved Skill`
+`根 AGENTS.md + nest_front/AGENTS.md + 相关 docs + Approved Skill`
 
 根目录已定义的 Git、Completion、Security、Workflow 等公共规则，本文件不重复。
 
@@ -31,7 +31,7 @@ Frontend 不负责：
 * Server-side Data Integrity；
 * Backend External Service Integration。
 
-不得依赖 `backend/` Source Code，也不得通过 Frontend Logic 替代 Backend Security 或 Business Validation。
+不得依赖 `nest_server/` Source Code，也不得通过 Frontend Logic 替代 Backend Security 或 Business Validation。
 
 ## 2. Source of Truth
 
@@ -42,6 +42,9 @@ Frontend Task 开始前，根据 Scope 读取对应正式文档。
 | Domain                         | Source                     |
 | ------------------------------ | -------------------------- |
 | core technology stack          | `nest_front/docs/technologyStack/index.md` |
+| module structure               | `nest_front/docs/srcSturcture/index.md` |
+| UI standards                   | `nest_front/docs/ui/index.md` |
+| validation                     | `nest_front/docs/validation/index.md` |
 
 若文档不存在，不得自行假设其内容。
 
@@ -136,11 +139,14 @@ API Contract Change 必须检查对应 Backend Provider。
 
 UI Change 应优先遵循：
 
-1. Existing Design System；
-2. Existing Component；
-3. Existing Interaction Pattern；
-4. Frontend docs；
-5. Approved UI / Vue Skill。
+1. 当前任务的明确 Requirement；
+2. 适用的根目录与 Frontend `AGENTS.md` 约束；
+3. 已确认的 UI Architecture Decision；
+4. 对应 User / Admin 的正式 UI docs；
+5. 符合上述规范的 Existing Design System、Component 与 Interaction Pattern；
+6. Approved UI / Vue Skill。
+
+正式 UI docs 定义目标，Existing Implementation 用于复用与理解现状。二者冲突时以正式 UI docs 为准；当前任务明确要求覆盖规范时，以当前 Requirement 为准，并说明影响范围。不得以复用旧页面为由延续不符合规范的 UI。
 
 不得因为局部 Requirement：
 
@@ -224,6 +230,8 @@ Skill 中已有的 Vue / TypeScript 通用规范不复制进本文件。
 ## 14. Validation
 
 Validation 是证明 Requirement 正确实现的 Evidence。执行最小充分、与风险相称的检查；Static Check 不能替代必要的 User-visible Runtime / Browser Verification。不得通过削弱 Quality Gate 获得 PASS。
+
+命令、环境要求及 Conditional 检查的触发条件见 `nest_front/docs/validation/index.md`。根目录安装与应用入口见 `docs/development/index.md`。
 
 | Change Type | Required | Conditional |
 | --- | --- | --- |

@@ -4,12 +4,30 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "pnpm -r --parallel dev",
-    "dev:admin": "pnpm --filter admin dev",
-    "dev:users": "pnpm --filter users dev",
-    "dev:server": "pnpm --filter servers dev",
+    "dev:admin": "pnpm --filter zhixiang-cloud-admin dev",
+    "dev:users": "pnpm --filter zhixiang-cloud-users dev",
+    "dev:server": "pnpm --filter zhixiang-cloud-v2-server dev",
     "build": "pnpm -r build",
-    "build:admin": "pnpm --filter admin build",
-    "build:users": "pnpm --filter users build",
-    "build:server": "pnpm --filter servers build"
+    "build:admin": "pnpm --filter zhixiang-cloud-admin build",
+    "build:users": "pnpm --filter zhixiang-cloud-users build",
+    "build:server": "pnpm --filter zhixiang-cloud-v2-server build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:front": "pnpm --filter \"./nest_front/*\" test",
+    "test:e2e:front": "pnpm --filter \"./nest_front/*\" test:e2e"
+  },
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=24.0.0 <25",
+    "pnpm": ">=11.0.0 <12"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.8.1",
+    "eslint-plugin-vue": "10.10.0",
+    "globals": "17.11.0",
+    "typescript-eslint": "8.67.0",
+    "vue-eslint-parser": "10.4.1"
   }
 }

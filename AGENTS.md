@@ -48,6 +48,7 @@ Requirement 不涉及 Dependency 时，不修改 Dependency Manifest 或 Lockfil
 | Frontend Design / Standards    | `nest_front/docs/`         |
 | Backend Policy                 | `nest_server/AGENTS.md`    |
 | Backend Design / Standards     | `nest_server/docs/`        |
+| Development / Validation Entry | `docs/development/index.md` |
 
 信息冲突时按以下优先级处理：
 
@@ -139,6 +140,8 @@ Skill 是 Execution Guidance，不是 Source of Truth；其内容不得覆盖 Re
 5. **Validate**：按本文件的 `Validation` 章节执行与风险匹配的检查。
 6. **Review**：检查 Final Diff 是否满足 Requirement，是否混入无关改动、意外 Public API / Behavior 变更、Debug/Temporary Code、无必要 Dependency/Abstraction，以及明显的 Boundary、Type Safety 或 Error Handling 问题。
 7. **Report**：说明完成内容、实际 Validation 结果，以及 Blocker、Risk 或 Assumption。未完成时明确已完成部分和限制。
+
+未授权 Git 操作时，修改前记录本任务涉及的文件和必要的原始内容，修改后基于文件前后内容审查。不得覆盖用户已有改动，或将任务开始前已存在的内容计入本次成果。基线记录不得包含真实敏感数据。
 
 ## 9. Validation
 

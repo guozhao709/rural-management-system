@@ -1,7 +1,23 @@
 packages:
-  - "front-end/admin"
-  - "front-end/users"
-  - "servers"
+  - "nest_front/admin"
+  - "nest_front/users"
+  - "nest_server"
+verifyDepsBeforeRun: error
+engineStrict: true
+packageConfigs:
+  zhixiang-cloud-v2-server:
+    saveExact: true
 allowBuilds:
   '@parcel/watcher': false
-  esbuild: false
+  '@scarf/scarf': false
+  argon2: true
+  esbuild: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@langchain/core@1.2.9'
+  - '@langchain/langgraph-checkpoint@1.1.5'
+  - joi@18.2.5
+  - langchain@1.5.10
+  - '@playwright/test@1.63.0'
+  - playwright-core@1.63.0
+  - playwright@1.63.0
