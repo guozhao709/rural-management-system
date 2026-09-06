@@ -1,10 +1,13 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  Optional,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import type { EntityManager, EntityRepository, FilterQuery } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/core';
+import type { EntityRepository, FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { User } from '../users/user.entity';
 import {
@@ -22,7 +25,6 @@ import { HealthConsent } from './entities/health-consent.entity';
 import { HealthMeasurement } from './entities/health-measurement.entity';
 import { HealthProfile } from './entities/health-profile.entity';
 import type { HealthConsentScope } from './resident-health.types';
-import { Inject, Optional } from '@nestjs/common';
 import { HealthAccessAuditService } from './health-access-audit.service';
 
 export interface HealthConsentPresenter {

@@ -1,0 +1,27 @@
+import { request } from '../../../api/request'
+import type { ApiEnvelope } from '../../../api/types'
+import type { Crop, Knowledge, KnowledgeInput, PageResult } from '../types/agriculture'
+
+function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === 'object' && value !== null }
+function text(value: unknown, field: string, nullable = false): string | null { if (nullable && value === null) return null; if (typeof value !== 'string') throw new Error(`服务器返回的${field}格式无效。`); return value }
+function integer(value: unknown, field: string): number { if (typeof value !== 'number' || !Number.isInteger(value)) throw new Error(`服务器返回的${field}格式无效。`); return value }
+function stringList(value: unknown, field: string): string[] { if (!Array.isArray(value) || value.some(item => typeof item !== 'string')) throw new Error(`服务器返回的${field}格式无效。`); return value }
+function numberList(value: unknown, field: string): number[] { if (!Array.isArray(value) || value.some(item => typeof item !== 'number' || !Number.isInteger(item))) throw new Error(`服务器返回的${field}格式无效。`); return value }
+function parseCrop(value: unknown): Crop { if (!isRecord(value) || (value.status !== 'active' && value.status !== 'inactive') || !Array.isArray(value.aliases)) throw new Error('服务器返回的作物数据格式无效。'); return { id: integer(value.id, '作物编号'), code: text(value.code, '作物编码')!, name: text(value.name, '作物名称')!, scientificName: text(value.scientificName, '作物学名', true), status: value.status, aliases: value.aliases.map(item => { if (!isRecord(item)) throw new Error('服务器返回的别名格式无效。'); return { id: integer(item.id, '别名编号'), alias: text(item.alias, '别名')! } }) } }
+function parseKnowledge(value: unknown, detail = false): Knowledge { if (!isRecord(value) || (value.status !== 'draft' && value.status !== 'published' && value.status !== 'archived')) throw new Error('服务器返回的农业知识格式无效。'); const item: Knowledge = { id: integer(value.id, '知识编号'), title: text(value.title, '知识标题')!, summary: text(value.summary, '知识摘要', true), category: text(value.category, '知识分类')!, tags: stringList(value.tags, '知识标签'), regionCodes: stringList(value.regionCodes, '适用地区'), isGeneral: value.isGeneral === true, sourceName: text(value.sourceName, '知识来源', true), sourceUrl: text(value.sourceUrl, '来源链接', true), validUntil: text(value.validUntil, '有效期', true), version: integer(value.version, '知识版本'), status: value.status, cropIds: numberList(value.cropIds, '关联作物') }; if (detail) item.content = text(value.content, '知识正文')!; return item }
+function parsePage<T>(value: unknown, parser: (item: unknown) => T): PageResult<T> { if (!isRecord(value) || !Array.isArray(value.list)) throw new Error('服务器返回的分页数据格式无效。'); return { list: value.list.map(parser), total: integer(value.total, '总数'), page: integer(value.page, '页码'), pageSize: integer(value.pageSize, '每页数量') } }
+async function unwrap<T>(promise: Promise<{ data: ApiEnvelope<unknown> }>, parser: (value: unknown) => T): Promise<T> { const response = await promise; return parser(response.data.data) }
+export const agricultureAdminApi = {
+  crops(): Promise<Crop[]> { return unwrap(request.get<ApiEnvelope<unknown>>('/api/v2/admin/agriculture/crops'), value => { if (!Array.isArray(value)) throw new Error('服务器返回的作物列表格式无效。'); return value.map(parseCrop) }) },
+  createCrop(input: Pick<Crop, 'code' | 'name' | 'scientificName'>): Promise<Crop> { return unwrap(request.post<ApiEnvelope<unknown>>('/api/v2/admin/agriculture/crops', input), parseCrop) },
+  updateCrop(id: number, input: Partial<Pick<Crop, 'name' | 'scientificName' | 'status'>>): Promise<Crop> { return unwrap(request.patch<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/crops/${id}`, input), parseCrop) },
+  addAlias(id: number, alias: string): Promise<Crop> { return unwrap(request.post<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/crops/${id}/aliases`, { alias }), parseCrop) },
+  removeAlias(id: number, aliasId: number): Promise<void> { return request.delete(`/api/v2/admin/agriculture/crops/${id}/aliases/${aliasId}`).then(() => undefined) },
+  knowledge(params: { keyword?: string; page?: number } = {}): Promise<PageResult<Knowledge>> { return unwrap(request.get<ApiEnvelope<unknown>>('/api/v2/admin/agriculture/knowledge', { params: { ...params, pageSize: 20 } }), value => parsePage(value, value => parseKnowledge(value))) },
+  knowledgeDetail(id: number): Promise<Knowledge> { return unwrap(request.get<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/knowledge/${id}`), value => parseKnowledge(value, true)) },
+  createKnowledge(input: KnowledgeInput): Promise<Knowledge> { return unwrap(request.post<ApiEnvelope<unknown>>('/api/v2/admin/agriculture/knowledge', input), value => parseKnowledge(value, true)) },
+  updateKnowledge(id: number, input: KnowledgeInput): Promise<Knowledge> { return unwrap(request.patch<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/knowledge/${id}`, input), value => parseKnowledge(value, true)) },
+  publishKnowledge(id: number): Promise<Knowledge> { return unwrap(request.post<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/knowledge/${id}/publish`), value => parseKnowledge(value, true)) },
+  archiveKnowledge(id: number): Promise<Knowledge> { return unwrap(request.post<ApiEnvelope<unknown>>(`/api/v2/admin/agriculture/knowledge/${id}/archive`), value => parseKnowledge(value, true)) },
+  deleteKnowledge(id: number): Promise<void> { return request.delete(`/api/v2/admin/agriculture/knowledge/${id}`).then(() => undefined) },
+}

@@ -4,7 +4,8 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import type { EntityManager, EntityRepository, FilterQuery } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/core';
+import type { EntityRepository, FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { randomUUID } from 'node:crypto';
 import { Inject } from '@nestjs/common';

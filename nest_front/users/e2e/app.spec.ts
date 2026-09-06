@@ -1,16 +1,15 @@
 import { expect, test } from '@playwright/test'
 
-// 工具链验收：真实页面装配、交互和重新加载；不代表业务验收。
-test('updates the counter without runtime errors and resets on reload', async ({ page }) => {
+test('redirects an unauthenticated user to login and exposes registration navigation', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => {
-    if (message.type() === 'error') errors.push(message.text())
+    if (message.type() === 'error' && !message.text().includes('status of 401')) errors.push(message.text())
   })
-  await page.goto('/')
-  await page.getByRole('button', { name: 'Count is 0', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Count is 1', exact: true })).toBeVisible()
-  await page.reload()
-  await expect(page.getByRole('button', { name: 'Count is 0', exact: true })).toBeVisible()
+  await page.route('**/api/v2/auth/user/refresh', route => route.fulfill({ status: 401, contentType: 'application/json', body: JSON.stringify({ code: 401, message: 'Refresh Token 无效', data: null }) }))
+  await page.goto('/home')
+  await expect(page.getByRole('heading', { name: '欢迎回来' })).toBeVisible()
+  await page.getByRole('link', { name: '还没有账号？去注册' }).click()
+  await expect(page.getByRole('heading', { name: '创建账号' })).toBeVisible()
   expect(errors).toEqual([])
 })

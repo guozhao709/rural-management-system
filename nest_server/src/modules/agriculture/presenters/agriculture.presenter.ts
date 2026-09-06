@@ -38,7 +38,7 @@ export class KnowledgePresenter {
 export class AnalysisPresenter {
   static from(entity: CropAnalysis) {
     return {
-      id: entity.id,
+      id: String(entity.id),
       cropId: entity.crop.id,
       cropName: entity.cropNameSnapshot,
       regionCode: entity.regionCode,

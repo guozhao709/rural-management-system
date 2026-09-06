@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import type { EntityManager, EntityRepository } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/core';
+import type { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HealthAccessAudit } from './entities/health-access-audit.entity';
 
