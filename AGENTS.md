@@ -48,7 +48,9 @@ Requirement 不涉及 Dependency 时，不修改 Dependency Manifest 或 Lockfil
 | Frontend Design / Standards    | `nest_front/docs/`         |
 | Backend Policy                 | `nest_server/AGENTS.md`    |
 | Backend Design / Standards     | `nest_server/docs/`        |
+| API Contract                   | `docs/接口文档/`           |
 | Development / Validation Entry | `docs/development/index.md` |
+| Agent Environment Decisions    | `docs/agent/environment-decisions.md` |
 
 信息冲突时按以下优先级处理：
 

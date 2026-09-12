@@ -33,5 +33,7 @@ out/
 .DS_Store
 Thumbs.db
 
+# Agent skill implementations are installed per developer machine.
 .agents
-docs
+
+一些问题

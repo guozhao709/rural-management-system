@@ -82,7 +82,7 @@ Vue、TypeScript、Testing 等通用工程实践优先使用 Approved Skill，�
 
 ## 5. API Boundary
 
-Frontend 与 Backend 通过 Root `docs/api/` 定义的正式 API Contract 通信。
+Frontend 与 Backend 通过 Root `docs/接口文档/` 定义的正式 API Contract 通信。
 
 API Request 不应散落在：
 

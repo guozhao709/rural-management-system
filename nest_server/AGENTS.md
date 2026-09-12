@@ -4,7 +4,7 @@
 
 本文件定义 Backend Scope 下的 Agent Policy。执行 Backend Task 时，应同时遵循：
 
-`根 AGENTS.md + backend/AGENTS.md + 相关 docs + Approved Skill`
+`根 AGENTS.md + nest_server/AGENTS.md + 相关 docs + Approved Skill`
 
 根目录规则已经定义的公共约束，本文件不重复。
 
@@ -24,7 +24,7 @@ Backend 负责：
 
 Frontend 不属于本 Scope。
 
-Backend 不得依赖 `frontend/` Source Code，也不得依赖 Client-side Logic 保证业务正确性或安全性。
+Backend 不得依赖 `nest_front/` Source Code，也不得依赖 Client-side Logic 保证业务正确性或安全性。
 
 ## 2. Source of Truth
 
@@ -159,7 +159,7 @@ Transaction 应围绕完整 Business Operation，而不是围绕单个 Repositor
 
 ## 9. API Contract
 
-Root `docs/api/` 是 Frontend / Backend Cross-boundary Contract 的正式来源。
+Root `docs/接口文档/` 是 Frontend / Backend Cross-boundary Contract 的正式来源。
 
 修改以下内容属于 Contract Change：
 
