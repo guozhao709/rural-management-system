@@ -1,5 +1,9 @@
 # M08 农业模块接口文档
 
+> Document Role: LEGACY_NEST_REFERENCE  
+> Status: SUPERSEDED  
+> 本文仅记录 Nest 旧农业接口，不是当前 API Contract。当前入口见[业务模块索引](../../../index.md)。
+
 ## 1. 范围
 
 本文档说明 M08「农业分析与农业知识」模块当前已实现的 HTTP API，供前端页面联调使用。接口前缀为 `/api/v2`，统一返回 JSON。

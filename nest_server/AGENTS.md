@@ -30,6 +30,8 @@ Backend 不得依赖 `nest_front/` Source Code，也不得依赖 Client-side Log
 
 Backend Task 开始前，根据 Scope 读取相关文档。
 
+涉及业务模块时，先读取 Root `docs/module/index.md`、对应当前 Requirement 与已批准 Design；跨边界实现仅以对应 `docs/module/<domain>/api.md` 为 Contract。现存 `src/modules/agriculture` 与 `src/modules/resident-health` 属于冻结的 Nest 旧业务实现，在新 Design 和 Contract 批准前不得扩展或作为新业务模型复用。
+
 ### Source Map
 
 `/nest_server/docs/technologyStack/index.md` 是 Backend Technology Stack 的正式来源。
@@ -159,7 +161,7 @@ Transaction 应围绕完整 Business Operation，而不是围绕单个 Repositor
 
 ## 9. API Contract
 
-Root `docs/接口文档/` 是 Frontend / Backend Cross-boundary Contract 的正式来源。
+Root `docs/module/<domain>/api.md` 是 Frontend / Backend Cross-boundary Contract 的正式来源。
 
 修改以下内容属于 Contract Change：
 

@@ -1,5 +1,9 @@
 # M09 progress
 
+> Document Role: HISTORICAL_RECORD  
+> Status: SUPERSEDED  
+> 本文仅保留 Nest 旧健康实施进度，不代表当前项目进度。当前入口见[业务模块索引](../../../../index.md)。
+
 Baseline before M09: `main` had a user-owned deletion of `.env.example` and newly added `CONTEXT.md` / `docs/M09`. These changes were preserved on `feature/health`. Baseline `pnpm typecheck` and `pnpm test` passed; E2E result is recorded with final quality evidence.
 
 | ID | Task | Status | Evidence / next step |
@@ -32,7 +36,7 @@ Baseline before M09: `main` had a user-owned deletion of `.env.example` and newl
 | M09-026 | Assessment history/delete | AUTOMATED_PASSED | Owner-only list/detail/soft-delete API semantics and 404 isolation are implemented. |
 | M09-027 | Health access audit | AUTOMATED_PASSED | Metadata-only audit table/service records health read/write/delete and knowledge governance events. |
 | M09-028 | M07 public facade | AUTOMATED_PASSED | `ResidentHealthRetrievalFacade` exports only public metadata; unavailable content returns 404. |
-| M09-029 | User frontend migration | IN_PROGRESS | Health page uses M09 consent/assessment endpoints and no client identity/disease/drug fields; local frontend toolchain approval is still required for build evidence. |
+| M09-029 | User frontend migration | VERIFIED | User health route implements consent, profile, measurements, assessments and public knowledge using only M09 V2 endpoints; no client identity, disease probability, drug or dosage fields. User-app test, typecheck, lint and build pass. With local AES-GCM configuration and development reference rules enabled, authenticated API validation passes for consent, encrypted profile round-trip and clear, measurement create/delete, emergency assessment create/delete, 120 action guidance and consent revocation. A real browser session at the standard allowed origin confirms the emergency instruction is displayed at the top of the result. This is competition-demo evidence only; M09-032 professional safety acceptance remains external-review-required. |
 | M09-030 | Legacy dry-run importer | PENDING | Isolated/idempotent report. |
 | M09-031 | Quality gate | IN_PROGRESS | 2026-08-25: backend typecheck/lint/build and 15 E2E tests pass; assessment/audit migrations applied. Frontend build is blocked locally by pnpm ignored-build policy; format/coverage target remains. |
 | M09-032 | Professional safety acceptance | EXTERNAL_REVIEW_REQUIRED | Requires inspectable clinical/legal evidence. |

@@ -1,5 +1,9 @@
 # 用户、管理员、认证与鉴权接口文档
 
+> Document Role: CURRENT_CONTRACT  
+> Domain: auth  
+> Implementation State: IMPLEMENTED
+
 本文档覆盖「智乡云 V2」当前已实现的用户、管理员、认证与鉴权接口，供前端登录、路由守卫和后台管理页面联调使用。
 
 Swagger 页面：`/api/docs`。以下路径均以服务地址为前缀，例如本地环境为 `http://localhost:3000`。

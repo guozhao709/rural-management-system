@@ -9,7 +9,7 @@
 - 新前后端共用根 workspace 和锁文件；不在子应用重新建立独立 workspace 或锁文件。
 - `verifyDepsBeforeRun: error` 在依赖过期时阻止运行并要求显式安装，避免验证命令隐式安装或并发改写依赖目录；该行为见 [pnpm 配置说明](https://pnpm.io/settings/build#verifydepsbeforerun)。
 - `pnpm-workspace.yaml` 的 `allowBuilds` 明确控制依赖安装脚本。仅对已确认需要的包开放，不全局允许所有依赖脚本。
-- 旧目录 `front-end/`、`servers/` 不属于当前 workspace，按根 AGENTS 保持只读。
+- Express 旧项目目录 `front-end/`、`servers/` 不属于当前 workspace，按根 AGENTS 保持只读。
 
 ## 应用映射
 

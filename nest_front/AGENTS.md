@@ -37,6 +37,8 @@ Frontend 不负责：
 
 Frontend Task 开始前，根据 Scope 读取对应正式文档。
 
+涉及业务模块时，先读取 Root `docs/module/index.md`、对应当前 Requirement 与已批准 Design；跨边界调用仅以对应 `docs/module/<domain>/api.md` 为 Contract。现存农业与健康页面属于 Nest 旧业务 Consumer，在新 Design 和 Contract 批准前不得继续扩展或据此推导新业务 UI。
+
 ### Source Map
 
 | Domain                         | Source                     |
@@ -82,7 +84,7 @@ Vue、TypeScript、Testing 等通用工程实践优先使用 Approved Skill，�
 
 ## 5. API Boundary
 
-Frontend 与 Backend 通过 Root `docs/接口文档/` 定义的正式 API Contract 通信。
+Frontend 与 Backend 通过 Root `docs/module/<domain>/api.md` 定义的正式 API Contract 通信。
 
 API Request 不应散落在：
 

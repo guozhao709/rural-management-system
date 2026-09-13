@@ -1,5 +1,9 @@
 # M09 assumptions
 
+> Document Role: HISTORICAL_RECORD  
+> Status: SUPERSEDED  
+> 本文仅保留 Nest 旧健康假设，不作为当前业务或技术决策。当前入口见[业务模块索引](../../../../index.md)。
+
 | Assumption | Conservative default | Basis | Status | Configuration / replacement |
 | --- | --- | --- | --- | --- |
 | Personalised assessment | Disabled | No approved, inspectable safety rules | External review required | `HEALTH_ASSESSMENT_ENABLED`, approved rules adapter |

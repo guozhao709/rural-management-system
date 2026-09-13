@@ -5,6 +5,12 @@
   --color-text-primary: #191919;
   --color-text-secondary: #666666;
   --color-danger: #e84026;
+  --color-success: #64bb5c;
+  --color-warning: #ed6f21;
+  --color-text-tertiary: #999999;
+  --color-divider: #e5e5ea;
+  --color-health: #26a77a;
+  --color-health-soft: #eaf7f2;
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;

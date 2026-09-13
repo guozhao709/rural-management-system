@@ -1,8 +1,8 @@
 # 智乡云 V2 后端
 
-基于 NestJS 11、TypeScript 6、PostgreSQL 18 和 MikroORM 7 的后端应用。当前源码包含 M01 用户、管理员、认证与鉴权，M08 农业分析与知识，以及 M09 居民健康记录、评估与健康知识模块。
+基于 NestJS 11、TypeScript 6、PostgreSQL 18 和 MikroORM 7 的后端应用。认证与用户管理是当前能力；源码中的农业与居民健康模块属于待替换的 Nest 旧业务实现，不代表当前农业、健康业务需求。
 
-业务目标和接口细节以正式设计与 API Contract 为准；本 README 只提供开发环境入口。
+业务目标和接口细节以 Root `docs/module/index.md` 路由的当前 Requirement 与 API Contract 为准；本 README 只提供开发环境入口。
 
 ## 环境要求与安装
 
@@ -107,11 +107,13 @@ nest_server/
 
 - [Backend Agent 规范](./AGENTS.md)
 - [Backend 技术栈](./docs/technologyStack/index.md)
-- [M01 用户、管理员与认证接口](../docs/接口文档/M01/index.md)
-- [M08 农业接口](../docs/接口文档/M08/index.md)
-- [M09 健康接口](../docs/接口文档/M09/index.md)
-- [M08 方案设计](./docs/设计方案/M08/方案设计.md)
-- [M09 方案设计](./docs/设计方案/M09/方案设计.md)
+- [业务模块注册表](../docs/module/index.md)
+- [认证接口](../docs/module/auth/api.md)
+- [农业业务需求](../docs/module/agriculture/requirements.md)
+- [健康业务需求](../docs/module/health/requirements.md)
+- [AI 聊天业务需求](../docs/module/ai/requirements.md)
+
+旧 Nest 农业、健康 Contract、设计和实施记录位于 `docs/module/legacy/nest/`，默认不得作为当前实现依据。
 
 ## 许可
 

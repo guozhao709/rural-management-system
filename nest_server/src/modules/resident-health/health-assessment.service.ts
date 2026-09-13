@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
@@ -32,6 +33,8 @@ export interface HealthAssessmentRuntimeConfig {
 
 @Injectable()
 export class HealthAssessmentService {
+  private readonly logger = new Logger(HealthAssessmentService.name);
+
   constructor(
     @InjectRepository(HealthAssessment)
     private readonly assessments: EntityRepository<HealthAssessment>,
@@ -64,7 +67,12 @@ export class HealthAssessmentService {
       symptoms: dto.symptoms.map(({ code, severity, course }) => ({ code, severity, course })),
     });
     const now = new Date();
-    const result = await this.makeResult(rule, now, consent.scopes.includes('ai_processing'));
+    const result = await this.makeResult(
+      rule,
+      now,
+      consent.scopes.includes('ai_processing'),
+      dto.symptoms.map(({ code, severity, course }) => ({ code, severity, course })),
+    );
     const assessment = this.assessments.create(
       {
         id: randomUUID(),
@@ -150,7 +158,7 @@ export class HealthAssessmentService {
     if (measurements.length !== uniqueIds.length)
       throw new NotFoundException('指定健康测量不存在');
     return measurements.map((measurement) => ({
-      id: measurement.id,
+      id: String(measurement.id),
       type: measurement.type,
       values: measurement.values,
       measuredAt: measurement.measuredAt.toISOString(),
@@ -172,14 +180,20 @@ export class HealthAssessmentService {
     return value ? this.crypto!.decrypt(value as EncryptedHealthData) : null;
   }
 
-  private async makeResult(rule: TriageDecision, generatedAt: Date, aiProcessingConsented: boolean) {
+  private async makeResult(
+    rule: TriageDecision,
+    generatedAt: Date,
+    aiProcessingConsented: boolean,
+    symptoms: Array<{ code: string; severity: string; course: string }>,
+  ) {
     if (this.runtime.aiExplanationEnabled && aiProcessingConsented && rule.level !== 'emergency') {
       try {
-        const generated = await this.explanation.explain({ triage: rule, knowledge: [] });
+        const generated = await this.explanation.explain({ triage: rule, knowledge: [], symptoms });
         const safe = parseSafeHealthExplanation(generated);
         if (safe) return safe;
-      } catch {
+      } catch (error) {
         // Do not delay safe rule-first guidance when an optional explanation provider fails.
+        this.logger.warn(`AI 健康说明未采用：${error instanceof Error ? error.message : '未知错误'}`);
       }
     }
     return this.makeDeterministicResult(rule, generatedAt);

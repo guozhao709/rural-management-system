@@ -52,7 +52,7 @@ export const environmentValidationSchema = Joi.object({
     .default('info'),
   HEALTH_ASSESSMENT_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
   HEALTH_AI_EXPLANATION_ENABLED: Joi.boolean().truthy('true').falsy('false').default(false),
-  HEALTH_ASSESSMENT_DAILY_LIMIT: Joi.number().integer().min(1).max(20).default(5),
+  HEALTH_ASSESSMENT_DAILY_LIMIT: Joi.number().integer().min(1).max(100).default(5),
   HEALTH_KNOWLEDGE_LIMIT: Joi.number().integer().min(1).max(20).default(6),
   HEALTH_DATA_RETENTION_DAYS: Joi.number().integer().min(30).max(3650).default(365),
   HEALTH_RULESET_VERSION: Joi.string().max(100).allow('').default(''),

@@ -227,7 +227,7 @@ export class ResidentHealthService {
   }
   private presentConsent(consent: HealthConsent): HealthConsentPresenter {
     return {
-      id: consent.id,
+      id: String(consent.id),
       noticeVersion: consent.noticeVersion,
       scopes: consent.scopes,
       grantedAt: consent.grantedAt,
@@ -235,7 +235,7 @@ export class ResidentHealthService {
   }
   private presentMeasurement(measurement: HealthMeasurement): HealthMeasurementPresenter {
     return {
-      id: measurement.id,
+      id: String(measurement.id),
       type: measurement.type,
       source: measurement.source,
       measuredAt: measurement.measuredAt,

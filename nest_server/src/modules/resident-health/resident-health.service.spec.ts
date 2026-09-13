@@ -59,6 +59,23 @@ describe('ResidentHealthService', () => {
     expect(consents.findOne).toHaveBeenCalledWith({ userId: 7, revokedAt: null });
   });
 
+  it('serializes database bigint consent identifiers as API strings', async () => {
+    consents.findOne.mockResolvedValue(null);
+    consents.create.mockReturnValue(
+      Object.assign(new HealthConsent(), {
+        id: 1n as unknown as string,
+        userId: 7,
+        noticeVersion: '1.0',
+        scopes: ['profile'],
+        grantedAt: new Date('2026-01-01'),
+      }),
+    );
+
+    await expect(
+      service.grantConsent(user, { noticeVersion: '1.0', scopes: ['profile'] }),
+    ).resolves.toMatchObject({ id: '1' });
+  });
+
   it('encrypts profile fields, supports explicit null clearing, and never queries another user', async () => {
     profiles.findOne.mockResolvedValue(null);
     consents.findOne.mockResolvedValue(
@@ -106,5 +123,31 @@ describe('ResidentHealthService', () => {
       userId: 7,
       deletedAt: null,
     });
+  });
+
+  it('serializes database bigint measurement identifiers as API strings', async () => {
+    consents.findOne.mockResolvedValue(
+      Object.assign(new HealthConsent(), { userId: 7, scopes: ['measurement'], revokedAt: null }),
+    );
+    measurements.create.mockReturnValue(
+      Object.assign(new HealthMeasurement(), {
+        id: 2n as unknown as string,
+        userId: 7,
+        type: 'heart_rate',
+        source: 'self_reported',
+        measuredAt: new Date('2026-01-01'),
+        values: { value: 70, unit: 'bpm' },
+        createdAt: new Date('2026-01-01'),
+      }),
+    );
+
+    await expect(
+      service.createMeasurement(user, {
+        type: 'heart_rate',
+        source: 'self_reported',
+        measuredAt: '2026-01-01T00:00:00.000Z',
+        values: { value: 70, unit: 'bpm' },
+      }),
+    ).resolves.toMatchObject({ id: '2' });
   });
 });

@@ -8,13 +8,15 @@
 
 Repository 主要结构：
 
-`\front-end` 与 `\servers` 是旧项目，只读。
+`\front-end` 与 `\servers` 是 Express 旧业务对应的旧项目，只读。
 
-`nest_front` 与 `nest_server` 是新项目(从旧项目重构)，Agent 可读写。
+`nest_front` 与 `nest_server` 是当前项目，Agent 可读写。其中现存农业与健康功能属于待替换的 Nest 旧业务实现，不是当前农业、健康业务需求的实现基线。
 
 职责划分：
 
 * `docs/`：系统级、业务级及 Frontend / Backend 跨边界文档；
+* `docs/module/`：当前业务模块注册表、Requirement 与 API Contract；
+* `docs/module/legacy/`：Nest 旧业务与 Express 旧业务的历史资料，仅在明确的迁移、兼容或历史核对任务中读取；
 * `nest_front/AGENTS.md`：Frontend Agent Policy；
 * `nest_front/docs/`：Frontend-specific Architecture、Design 与项目特有规范；
 * `nest_server/AGENTS.md`：Backend Agent Policy；
@@ -48,9 +50,31 @@ Requirement 不涉及 Dependency 时，不修改 Dependency Manifest 或 Lockfil
 | Frontend Design / Standards    | `nest_front/docs/`         |
 | Backend Policy                 | `nest_server/AGENTS.md`    |
 | Backend Design / Standards     | `nest_server/docs/`        |
-| API Contract                   | `docs/接口文档/`           |
+| Business Module Registry       | `docs/module/index.md`     |
+| Business Requirement           | `docs/module/<domain>/requirements.md` |
+| Business / Domain / Data Design | `docs/module/<domain>/design.md` |
+| API Contract                   | `docs/module/<domain>/api.md` |
 | Development / Validation Entry | `docs/development/index.md` |
 | Agent Environment Decisions    | `docs/agent/environment-decisions.md` |
+
+### Business Module and Legacy Routing
+
+业务任务必须先读取 `docs/module/index.md`，再根据其中的 Current Requirement、Current Design、Current Contract 与 Implementation State 路由到具体文件。
+
+文档角色与实现状态是两个独立维度：
+
+* 文档角色使用 `CURRENT_REQUIREMENT`、`CURRENT_DESIGN`、`CURRENT_CONTRACT`、`DRAFT_DESIGN`、`LEGACY_NEST_REFERENCE`、`LEGACY_EXPRESS_REFERENCE`、`HISTORICAL_RECORD`；
+* 实现状态继续使用本文件第 6 节定义的 `NOT IMPLEMENTED`、`PARTIAL`、`IMPLEMENTED`、`VERIFIED`、`BLOCKED`。
+
+规则：
+
+* 当前 Requirement 优先于 Existing Implementation 和 legacy 文档；
+* `design.md` 或 `api.md` 不存在时分别表示当前设计或 Contract 尚未确定，Frontend 与 Backend 不得根据旧方案、旧接口或 Existing Implementation 自行补全；
+* 不得使用无来源限定的“旧业务”；必须明确写为“当前业务”“Nest 旧业务”或“Express 旧业务”；
+* `docs/module/legacy/` 默认不读取，也不得作为当前 Architecture、Requirement 或 Contract；
+* Nest 旧农业与健康实现冻结功能开发，只允许当前 Requirement 明确授权的替换工作，或用户明确授权的安全、数据损坏、迁移阻塞修复；
+* 当前路径、模块名、Contract 和新增代码不得继续使用 `M01`、`M07`、`M08`、`M09` 等旧业务编号；历史归档和不可变 Migration 可保留原编号作为历史证据；
+* 新农业与健康业务必须先完成设计和 API Contract，再实施 Frontend、Backend、Database 或 AI 集成，不得把旧 DTO、Entity、Table、Route 或 UI 直接视为新业务模型。
 
 信息冲突时按以下优先级处理：
 
