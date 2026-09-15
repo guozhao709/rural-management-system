@@ -1,228 +1,149 @@
-# 智乡云项目级 Agent 规范
+# 智乡云 Agent 工作规范
 
-本项目为“智乡云”农业、健康与 AI 智能服务平台。
+## Role & Scope
 
-根目录 `AGENTS.md` 是项目级 Agent Operating Policy、Source of Truth 索引和 Scope Routing 入口；Frontend、Backend 的具体规则由各自目录下的 `AGENTS.md` 定义，详细 Architecture、Module Design、API Contract 等以对应 `docs/` 中正式文档为准。
+Agent 负责在授权范围内完成分析、设计、实现、验证和审查。优先完成最小完整变更，不自行扩大范围或决定项目级架构、依赖和业务政策。
 
-## 1. Project Scope
+- `nest_front/`、`nest_server/`：当前应用，可读写。
+- `front-end/`、`servers/`：Legacy 路径，只读。
+- Frontend、Backend 是独立应用边界，只能通过正式 API Contract 通信。
+- 现存 agriculture、health/resident-health 功能属于冻结的 Nest 旧业务，不是新业务实现基线。
 
-Repository 主要结构：
+## Communication
 
-`\front-end` 与 `\servers` 是 Express 旧业务对应的旧项目，只读。
+- 简单任务简洁报告；复杂任务说明关键判断、风险和验证证据。
+- 仅在需要用户作出政策、架构、依赖或范围决定时暂停询问。
+- 可以安全推进的不确定性应说明假设并继续。
+- 不隐藏失败、未验证内容、现有异常或范围限制。
 
-`nest_front` 与 `nest_server` 是当前项目，Agent 可读写。其中现存农业与健康功能属于待替换的 Nest 旧业务实现，不是当前农业、健康业务需求的实现基线。
+## Source of Truth
 
-职责划分：
+业务任务先读取 [`docs/module/index.md`](docs/module/index.md)，再按范围读取正式文档：
 
-* `docs/`：系统级、业务级及 Frontend / Backend 跨边界文档；
-* `docs/module/`：当前业务模块注册表、Requirement 与 API Contract；
-* `docs/module/legacy/`：Nest 旧业务与 Express 旧业务的历史资料，仅在明确的迁移、兼容或历史核对任务中读取；
-* `nest_front/AGENTS.md`：Frontend Agent Policy；
-* `nest_front/docs/`：Frontend-specific Architecture、Design 与项目特有规范；
-* `nest_server/AGENTS.md`：Backend Agent Policy；
-* `nest_server/docs/`：Backend-specific Architecture、Design 与项目特有规范。
+| 内容 | 路径 |
+| --- | --- |
+| Requirement | `docs/module/<domain>/requirements.md` |
+| 业务/领域设计 | `docs/module/<domain>/design.md` |
+| 数据库设计 | `docs/module/<domain>/database.md` |
+| API Contract | `docs/module/<domain>/api.md` |
+| Frontend 规则 | `nest_front/AGENTS.md`、`nest_front/docs/` |
+| Backend 规则 | `nest_server/AGENTS.md`、`nest_server/docs/` |
+| 开发与验证命令 | `docs/development/index.md` |
+| Approved Skills | `docs/skill-list/index.md` |
 
-不要为了目录对称创建没有实际内容的文档。
+普通业务 Requirement 不得覆盖本文件的安全、权限、Git 和 Legacy 硬约束。业务语义冲突时，优先级为：
 
-## 2. Technology Stack
+1. 当前明确授权；
+2. 适用的 `AGENTS.md` 硬约束；
+3. 当前 Requirement；
+4. 已批准 Design、Database Design 或 API Contract，各自在其职责范围内生效；
+5. 其他正式项目文档；
+6. Existing Implementation；
+7. Agent Assumption。
 
-优先使用既有技术栈；除非 Requirement 明确要求或现有能力无法合理满足需求，不得自行引入同类替代方案或更换核心 Technology Stack。
+Existing Implementation 只是现状证据，不自动成为目标 Requirement、Design 或 Contract。
 
-前端技术栈确认：`nest_front/AGENTS.md` 中确认。
+## Workflow
 
-后端技术栈确认：`nest_server/AGENTS.md` 中确认。
+默认采用：
 
-具体版本和 Dependency 以实际 `package.json`、Lockfile 及正式项目文档为准。
+`Understand → Inspect → Plan → Implement → Validate → Review → Report`
 
-新增重要 Dependency 不由 Agent 自行决定。确有必要时，应说明必要性、Existing Solution 限制、Candidate、Recommendation 与 Impact，交由用户决定。
+- 非简单任务先读取适用规则和正式文档。
+- 实现前检查可复用能力和影响范围。
+- 保持 Minimum Complete Change，不夹带无关重构、格式化、重命名或依赖升级。
+- 发现范围扩大、正式文档冲突或需要新授权时暂停并报告。
+- 修改后检查实际文件和只读 Git diff，区分用户已有修改与本次修改。
 
-Requirement 不涉及 Dependency 时，不修改 Dependency Manifest 或 Lockfile。
+### Design Gates
 
-## 3. Source of Truth
+- Backend 业务逻辑和 Database 实施必须有对应的已批准业务或数据库设计。
+- HTTP Endpoint、Frontend 集成及其他跨应用行为必须有当前 API Contract。
+- Contract 缺失时，不得根据旧 API、DTO、Route 或现存实现自行补全。
+- Contract Change 必须同时检查 Backend Provider 与 Frontend Consumer。
 
-非简单任务开始前，根据任务 Scope 读取对应正式文档；不要仅凭 Existing Implementation、通用 Best Practice 或 Assumption 推断项目规范。
+## Decision Heuristics
 
-### Source Map
+| 情况 | 默认处理 |
+| --- | --- |
+| 局部实现存在多种等价方案 | 选择最小且符合现有架构的方案，并说明判断 |
+| 改变架构、模块职责或依赖方向 | 先取得明确批准 |
+| 新增或替换重要依赖 | 说明必要性、替代方案和影响，交由用户决定 |
+| 修改 Public API | 先确认 Contract，并检查 Provider 和 Consumer |
+| 修改 Schema 或 Migration | 先确认设计、现有数据影响和迁移策略 |
+| 删除已有文件或资源 | 不仅凭静态搜索删除；先确认用途和影响 |
+| 发现范围外问题 | 记录并报告，不顺带修复 |
+| 正式来源相互冲突 | 遵循更高优先级来源并明确报告 |
 
-| Domain                         | Source                     |
-| ------------------------------ | -------------------------- |
-| Frontend Policy                | `nest_front/AGENTS.md`     |
-| Frontend Design / Standards    | `nest_front/docs/`         |
-| Backend Policy                 | `nest_server/AGENTS.md`    |
-| Backend Design / Standards     | `nest_server/docs/`        |
-| Business Module Registry       | `docs/module/index.md`     |
-| Business Requirement           | `docs/module/<domain>/requirements.md` |
-| Business / Domain / Data Design | `docs/module/<domain>/design.md` |
-| API Contract                   | `docs/module/<domain>/api.md` |
-| Development / Validation Entry | `docs/development/index.md` |
-| Agent Environment Decisions    | `docs/agent/environment-decisions.md` |
+## Tool Preferences
 
-### Business Module and Legacy Routing
+- 使用根 pnpm workspace；具体版本和命令以 `package.json`、Lockfile 和 `docs/development/index.md` 为准。
+- 不在子应用创建独立 Lockfile。
+- Skill 是执行指导，不是 Source of Truth；仅选择任务需要的最小 Approved Skill 集合。
+- 技术框架的通用最佳实践交给 Approved Skill，`AGENTS.md` 只保存项目特有约束。
+- 仓库没有约定 Commit、PR 或 Versioning 流程；Agent 不自行建立。
 
-业务任务必须先读取 `docs/module/index.md`，再根据其中的 Current Requirement、Current Design、Current Contract 与 Implementation State 路由到具体文件。
+### Git
 
-文档角色与实现状态是两个独立维度：
+允许以下只读 Git 操作：
 
-* 文档角色使用 `CURRENT_REQUIREMENT`、`CURRENT_DESIGN`、`CURRENT_CONTRACT`、`DRAFT_DESIGN`、`LEGACY_NEST_REFERENCE`、`LEGACY_EXPRESS_REFERENCE`、`HISTORICAL_RECORD`；
-* 实现状态继续使用本文件第 6 节定义的 `NOT IMPLEMENTED`、`PARTIAL`、`IMPLEMENTED`、`VERIFIED`、`BLOCKED`。
+- `git status`
+- `git diff`
+- `git log`
+- `git show`
+- `git branch --show-current`
+- `git rev-parse`
+- `git ls-files`
 
-规则：
+除非用户针对具体操作明确授权，不执行任何会修改 Working Tree、Index、Refs、Worktree 或远端状态的 Git 命令，包括 `add`、`commit`、`restore`、`checkout`、`switch`、`reset`、`clean`、`stash`、`merge`、`rebase`、`cherry-pick`、`revert`、`branch` 写操作、`tag` 写操作、`fetch`、`pull` 和 `push`。
 
-* 当前 Requirement 优先于 Existing Implementation 和 legacy 文档；
-* `design.md` 或 `api.md` 不存在时分别表示当前设计或 Contract 尚未确定，Frontend 与 Backend 不得根据旧方案、旧接口或 Existing Implementation 自行补全；
-* 不得使用无来源限定的“旧业务”；必须明确写为“当前业务”“Nest 旧业务”或“Express 旧业务”；
-* `docs/module/legacy/` 默认不读取，也不得作为当前 Architecture、Requirement 或 Contract；
-* Nest 旧农业与健康实现冻结功能开发，只允许当前 Requirement 明确授权的替换工作，或用户明确授权的安全、数据损坏、迁移阻塞修复；
-* 当前路径、模块名、Contract 和新增代码不得继续使用 `M01`、`M07`、`M08`、`M09` 等旧业务编号；历史归档和不可变 Migration 可保留原编号作为历史证据；
-* 新农业与健康业务必须先完成设计和 API Contract，再实施 Frontend、Backend、Database 或 AI 集成，不得把旧 DTO、Entity、Table、Route 或 UI 直接视为新业务模型。
+## Guardrails
 
-信息冲突时按以下优先级处理：
+### Never
 
-1. 当前明确 Requirement；
-2. 当前作用域的 `AGENTS.md`；
-3. 已确认的 Architecture Decision；
-4. 正式 Architecture、Module Design、API Contract 或其他项目文档；
-5. Existing Implementation；
-6. Agent Assumption。
+- 不输出、写入或提交真实 Credential、Secret、Token、Password、Cookie 或 Authorization Header。
+- 不绕过 Authentication、Authorization 或数据访问边界。
+- 不把 Mock、Stub、Fixture、Placeholder、Hard-coded Result 或 TODO 冒充完整实现或真实验收结果。
+- 不信任未经验证的外部输入、API Response、LLM Output 或 Tool Result。
+- 不通过删除测试、弱化断言、关闭规则或降低类型安全获得 PASS。
+- 不改写已执行 Migration 来完成重命名或文档整理。
+- 未经明确授权，不 Deploy、Publish、Release 或执行 Production Migration。
+- 不把 Legacy 文档或实现作为当前业务 Source of Truth。
 
-Existing Implementation 是理解当前行为的 Evidence，不自动等于目标 Architecture 或完整 Requirement。
+### Ask First
 
-发现冲突时遵循更高优先级来源；涉及 Architecture、API Contract、Security、Authentication、Authorization、Persistence 或 Dependency 时，应明确报告，不要静默选择。
+以下操作需要明确批准：
 
-## 4. Scope and Boundaries
+- 架构、模块职责或依赖方向变化；
+- 新增重要依赖或替换核心技术栈；
+- Public API 或 Authentication/Authorization Architecture 变化；
+- 数据持久化策略及破坏性 Schema Change；
+- AI Agent 或 Tool System Architecture 变化；
+- 删除无法安全确认用途的文件、配置、Migration 或资源。
 
-任务开始前识别其 Scope，包括但不限于：
+### Legacy
 
-* Frontend
-* Backend
-* Cross-boundary
-* Database
-* Authentication / Authorization
-* AI / Tool
-* Architecture
-* Documentation
+- Legacy 资料默认不读取；访问条件由 `docs/module/legacy/AGENTS.md` 定义。
+- 引用旧业务时必须说明是 Nest 旧业务还是 Express 旧业务。
+- 当前路径、Contract 和新增代码使用语义化 Domain 名称。
+- `Mxx` 编号只允许保留在历史正文、历史记录和不可变 Migration 中。
+- 冻结的 Nest 农业、健康实现只允许明确的替换/迁移工作，或经授权的安全、数据损坏和迁移阻塞修复。
 
-Frontend Task 应同时遵循：
+## Validation & Completion
 
-`根 AGENTS.md + nest_front/AGENTS.md + 相关 Frontend / Root docs`
+验证必须与变更风险相称，具体命令见 `docs/development/index.md` 和当前作用域文档。
 
-Backend Task 应同时遵循：
+功能状态使用 `NOT IMPLEMENTED`、`PARTIAL`、`IMPLEMENTED`、`VERIFIED`、`BLOCKED`。`IMPLEMENTED` 表示实现存在但要求的验证尚未完成；`VERIFIED` 仅用于实现完成且要求的验证实际通过。
 
-`根 AGENTS.md + nest_server/AGENTS.md + 相关 Backend / Root docs`
+验证结果只使用 `PASS`、`FAIL`、`NOT RUN`、`BLOCKED`。未实际执行的检查不得报告为 PASS。
 
-### Frontend / Backend Boundary
+完成报告说明实际完成内容、实际验证结果、未完成项，以及已知风险、阻塞和必要假设。
 
-* Frontend 与 Backend 是独立 Application Boundary，即使位于同一 Repository，也不得直接依赖对方 Source Code。
-* Frontend 与 Backend 通过正式 API Contract 通信。
-* Frontend 不负责 Backend Business Rule、Persistence 或 Security Boundary。
-* Backend 不依赖 Frontend Source Code，也不得依赖 Client-side Validation 保证安全。
-* API Contract Change 必须同时检查 Provider 与 Consumer。
+## Related Documentation
 
-新增/删除顶层 Layer、改变 Module Responsibility 或 Dependency Direction、修改 Public Contract、Authentication Architecture、Persistence Strategy、AI Agent Architecture 或 Tool System Architecture，属于 Architecture Change，必须有明确 Requirement 或 Project Decision 支持。
-
-## 5. Development Rules
-
-* 采用 Minimum Complete Change：完整解决 Requirement，但不顺带重构、格式化、重命名、升级 Dependency 或改变无关 Public API / Behavior。
-* 新增实现前先检查 Existing Implementation 与可复用能力，不创建仅名称不同的 Parallel Abstraction。
-* 新增或修改 TypeScript 应保持 Type Safety；外部 Input、External API、LLM Output 与 Tool Result 不得默认可信，应在对应 Boundary 完成 Validation。
-* 不使用 Mock、Stub、Placeholder、Hard-coded Result 或未说明 TODO 冒充完整 Requirement。
-* 具体 Vue、NestJS、MikroORM、Testing 等通用工程实践优先遵循当前作用域的 Approved Skill；项目特有规则以 `AGENTS.md` 和正式 docs 为准。
-
-## 6. Completion Integrity
-
-不得仅因为 Code 已生成、Compile 成功、Endpoint 存在或 Happy Path 可运行，就声明 Feature 已完成。
-
-功能状态统一使用：
-
-* `NOT IMPLEMENTED`：尚未实现；
-* `PARTIAL`：仅部分满足 Requirement；
-* `IMPLEMENTED`：实现已存在，但尚未完成要求的 Validation；
-* `VERIFIED`：Requirement 已实现且要求的 Validation 已实际通过；
-* `BLOCKED`：存在明确 Blocker。
-
-不得将 `IMPLEMENTED` 表述为 `VERIFIED`，也不得隐藏已知 Failure 或未完成 Requirement。
-
-## 7. Skills Policy
-
-Skill 是 Execution Guidance，不是 Source of Truth；其内容不得覆盖 Requirement、`AGENTS.md`、Architecture Decision 或正式项目文档。
-
-* Approved Skill、职责与 Trigger 见 `docs/skill-list/index.md`。
-* 默认只自动选择 Approved Skill。
-* 根据 Requirement 和 Scope 选择完成任务所需的最小 Skill 集合。
-* 简单、局部任务可以不使用 Skill。
-* 多个 Skill 应分别承担不同子问题，避免职责重叠。
-* 如 Skill 已包含的通用技术规范、Workflow 或 Validation Guidance，但 在 `AGENTS.md` 和项目 docs 中有类似的定义，以项目中的定义为准。
-* Skill 与项目规则冲突时，以项目规则为准。
-* 所需 Skill 不可用时，不伪造其结果；如影响实现或验证，应明确报告。
-
-## 8. Workflow
-
-默认流程：`Understand → Inspect → Plan → Implement → Validate → Review → Report`。流程深度应与 Complexity 和 Risk 匹配；发现新事实时可回到 Inspect 或 Plan。
-
-1. **Understand**：确认 Requirement、Expected Behavior、Change Scope、非目标范围与任务类型。
-2. **Inspect**：阅读适用规则和 Source of Truth，检查 Related Existing Implementation、可复用能力及 Impact Scope；避免无目的的 Repository Exploration。
-3. **Plan**：Non-trivial Task 在实现前明确主要修改位置、复用能力、实施方式和必要 Validation；Simple Task 可省略 Formal Plan。
-4. **Implement**：遵循 Architecture、Development Rules、正式项目文档和适用 Skill，保持 Minimum Complete Change。
-5. **Validate**：按本文件的 `Validation` 章节执行与风险匹配的检查。
-6. **Review**：检查 Final Diff 是否满足 Requirement，是否混入无关改动、意外 Public API / Behavior 变更、Debug/Temporary Code、无必要 Dependency/Abstraction，以及明显的 Boundary、Type Safety 或 Error Handling 问题。
-7. **Report**：说明完成内容、实际 Validation 结果，以及 Blocker、Risk 或 Assumption。未完成时明确已完成部分和限制。
-
-未授权 Git 操作时，修改前记录本任务涉及的文件和必要的原始内容，修改后基于文件前后内容审查。不得覆盖用户已有改动，或将任务开始前已存在的内容计入本次成果。基线记录不得包含真实敏感数据。
-
-## 9. Validation
-
-Validation 是证明 Requirement 正确实现的 Evidence。
-
-具体 Validation 方法优先遵循：
-
-1. 当前 Requirement；
-2. 当前作用域 `AGENTS.md`；
-3. Approved Skill；
-4. 项目 Existing Script 与 Test。
-
-Cross-boundary Change 必须同时检查受影响的 Frontend Consumer 与 Backend Provider。
-
-Validation 状态仅可为：
-
-* `PASS`：实际执行且成功；
-* `FAIL`：实际执行但失败；
-* `NOT RUN`：未执行；
-* `BLOCKED`：因环境、Dependency 或其他条件无法执行。
-
-未实际执行的 Test、Build、Lint、Type Check、Browser Verification、Integration、E2E 或 Security Review 不得报告为 PASS。
-
-不得通过删除 Test、弱化 Assertion、关闭 Lint Rule、降低 TypeScript Strictness、Error Suppression 或修改 Validation Configuration 来获得 PASS。
-
-## 10. Git Policy
-
-**所有 Git 操作由用户控制。**
-
-Agent 不执行任何 Git 命令或 Git 写操作。
-
-不得以检查 Change、恢复文件、获取 Clean Working Tree 或其他理由自行操作 Git。
-
-需要说明修改内容时，应基于实际文件和当前任务进行 Review，不依赖 Git Command。
-
-只有当用户通过提示词明确下达git操作指令时，Agent 才可进行git操作。
-
-## 11. Prohibited Actions
-
-* 不写入或输出真实 Credential、Secret、Token、Password、Cookie、Authorization Header 等 Sensitive Data。
-* 不绕过 Authentication / Authorization Boundary。
-* 不主动扩大 Requirement Scope。
-* 不仅因静态搜索未发现引用就删除 Existing File、Configuration、Asset、Migration 或 Resource。
-* 不自行建立新的项目级 Convention、Architecture 或核心 Dependency Decision。
-* 未经明确 Requirement，不执行 Deploy、Publish、Release、Production Migration 或 Shared Environment Modification。
-* 不伪造或夸大 Implementation、Validation、Review 或 Completion Status。
-
-## 12. Reporting
-
-完成任务后应简要说明：
-
-* 实际完成内容；
-* 实际执行的 Validation 及结果；
-* 未完成项；
-* 已知 Risk / Blocker；
-* 必要 Assumption。
-
-无 Failure、Risk 或 Blocker 时无需为了固定格式制造内容。
+- [`docs/module/index.md`](docs/module/index.md)
+- [`docs/development/index.md`](docs/development/index.md)
+- [`docs/skill-list/index.md`](docs/skill-list/index.md)
+- [`docs/agent/environment-decisions.md`](docs/agent/environment-decisions.md)
+- [`docs/agent/environment-profile.md`](docs/agent/environment-profile.md)
+- [`README.md`](README.md)
