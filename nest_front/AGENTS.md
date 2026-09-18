@@ -34,7 +34,7 @@ Frontend 不负责 Backend Business Rule、Persistence 或服务端安全边界�
 
 ## Legacy
 
-现存农业和健康页面是冻结的 Nest 旧业务 Consumer。新 Design 和 Contract 批准前，不继续扩展，也不据此推导新业务 UI。
+现存农业页面是冻结的 Nest 旧业务 Consumer；Nest 旧健康页面已移除。新业务仅按当前 Design 和 Contract 实现。
 
 ## Validation
 

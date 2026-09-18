@@ -26,11 +26,5 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../views/agriculture/index.vue'),
     meta: { requiresAuth: true },
   },
-  {
-    path: '/health',
-    name: 'user-health',
-    component: () => import('../views/health/index.vue'),
-    meta: { requiresAuth: true },
-  },
   { path: '/:pathMatch(.*)*', redirect: '/home' },
 ]

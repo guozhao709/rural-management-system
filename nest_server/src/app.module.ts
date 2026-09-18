@@ -10,7 +10,6 @@ import {
   appConfig,
   authConfig,
   databaseConfig,
-  residentHealthConfig,
 } from './config/configuration';
 import { environmentValidationSchema } from './config/environment.validation';
 import { HealthModule } from './health/health.module';
@@ -18,8 +17,8 @@ import { DatabaseModule } from './infrastructure/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AdminsModule } from './modules/admins/admins.module';
 import { UsersModule } from './modules/users/users.module';
-import { ResidentHealthModule } from './modules/resident-health/resident-health.module';
 import { AgricultureModule } from './modules/agriculture/agriculture.module';
+import { HealthBusinessModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -32,7 +31,6 @@ import { AgricultureModule } from './modules/agriculture/agriculture.module';
         databaseConfig,
         authConfig,
         aiConfig,
-        residentHealthConfig,
         agricultureConfig,
       ],
       validationSchema: environmentValidationSchema,
@@ -47,8 +45,8 @@ import { AgricultureModule } from './modules/agriculture/agriculture.module';
     AuthModule,
     AdminsModule,
     UsersModule,
-    ResidentHealthModule,
     AgricultureModule,
+    HealthBusinessModule,
   ],
   providers: [
     {

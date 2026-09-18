@@ -7,7 +7,7 @@ Agent 负责在授权范围内完成分析、设计、实现、验证和审查�
 - `nest_front/`、`nest_server/`：当前应用，可读写。
 - `front-end/`、`servers/`：Legacy 路径，只读。
 - Frontend、Backend 是独立应用边界，只能通过正式 API Contract 通信。
-- 现存 agriculture、health/resident-health 功能属于冻结的 Nest 旧业务，不是新业务实现基线。
+- 现存 agriculture 功能属于冻结的 Nest 旧业务；Nest 旧健康运行时代码已移除。
 
 ## Communication
 
@@ -127,7 +127,7 @@ Existing Implementation 只是现状证据，不自动成为目标 Requirement�
 - 引用旧业务时必须说明是 Nest 旧业务还是 Express 旧业务。
 - 当前路径、Contract 和新增代码使用语义化 Domain 名称。
 - `Mxx` 编号只允许保留在历史正文、历史记录和不可变 Migration 中。
-- 冻结的 Nest 农业、健康实现只允许明确的替换/迁移工作，或经授权的安全、数据损坏和迁移阻塞修复。
+- 冻结的 Nest 旧农业实现只允许明确的替换/迁移工作，或经授权的安全、数据损坏和迁移阻塞修复；已移除的 Nest 旧健康实现不得作为当前业务重新引入。
 
 ## Validation & Completion
 

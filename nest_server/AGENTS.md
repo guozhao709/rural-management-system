@@ -48,7 +48,7 @@ NestJS、TypeScript、MikroORM 和 Testing 的通用实践使用 Approved Skill�
 
 ## Legacy
 
-`src/modules/agriculture/` 和 `src/modules/resident-health/` 是冻结的 Nest 旧业务实现。新业务不得直接复用其 DTO、Entity、Table、Route 或业务模型。
+`src/modules/agriculture/` 是冻结的 Nest 旧业务实现；`src/modules/resident-health/` 已移除。新健康业务不得重新引入旧 DTO、Entity、Table、Route 或业务模型。
 
 ## Validation
 

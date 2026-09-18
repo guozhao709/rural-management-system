@@ -1,6 +1,6 @@
 # 智乡云 V2 后端
 
-基于 NestJS 11、TypeScript 6、PostgreSQL 18 和 MikroORM 7 的后端应用。认证与用户管理是当前能力；源码中的农业与居民健康模块属于待替换的 Nest 旧业务实现，不代表当前农业、健康业务需求。
+基于 NestJS 11、TypeScript 6、PostgreSQL 18 和 MikroORM 7 的后端应用。认证与用户管理是当前能力；源码中的农业模块属于待替换的 Nest 旧业务实现，Nest 旧健康运行时代码已移除，新健康业务尚未实现。
 
 业务目标和接口细节以 Root `docs/module/index.md` 路由的当前 Requirement 与 API Contract 为准；本 README 只提供开发环境入口。
 
@@ -55,13 +55,9 @@ pnpm install --frozen-lockfile
 | LLM       | `LLM_API_KEY`、`LLM_BASE_URL`、`LLM_MODEL`                                                        | OpenAI-compatible Provider；可为空 |
 | LLM       | `LLM_TIMEOUT_MS`、`LLM_MAX_RETRIES`                                                               | 请求超时与有限重试                 |
 | 农业      | `AGRICULTURE_ANALYSIS_ENABLED`、`AGRICULTURE_ANALYSIS_DAILY_LIMIT`、`AGRICULTURE_KNOWLEDGE_LIMIT` | 农业分析开关、日限额和检索数量     |
-| 健康      | `HEALTH_ASSESSMENT_ENABLED`、`HEALTH_AI_EXPLANATION_ENABLED`                                      | 健康评估和 AI 说明默认关闭         |
-| 健康      | `HEALTH_ASSESSMENT_DAILY_LIMIT`、`HEALTH_KNOWLEDGE_LIMIT`、`HEALTH_DATA_RETENTION_DAYS`           | 限额、检索数量和保留期             |
-| 健康      | `HEALTH_RULESET_VERSION`、`HEALTH_DATA_ENCRYPTION_KEY`                                            | 开启健康评估时必须配置             |
-| 健康      | `HEALTH_LEGACY_ROUTES_ENABLED`                                                                    | 旧健康路由兼容开关，默认关闭       |
 | HTTP      | `CORS_ORIGINS`                                                                                    | 必填，逗号分隔，不允许通配符       |
 
-开启 `HEALTH_AI_EXPLANATION_ENABLED` 时还必须配置 `LLM_API_KEY`。不得把真实 Credential 写入 `.env.example`、README 或其他仓库文件。
+不得把真实 Credential 写入 `.env.example`、README 或其他仓库文件。
 
 ## 常用命令
 
@@ -96,8 +92,7 @@ nest_server/
 │       ├── admins/
 │       ├── auth/
 │       ├── users/
-│       ├── agriculture/
-│       └── resident-health/
+│       └── agriculture/
 ├── test/                       # Supertest HTTP E2E
 ├── docker-compose.yml
 └── package.json
@@ -111,9 +106,11 @@ nest_server/
 - [认证接口](../docs/module/auth/api.md)
 - [农业业务需求](../docs/module/agriculture/requirements.md)
 - [健康业务需求](../docs/module/health/requirements.md)
+- [健康数据库设计](../docs/module/health/database.md)
+- [健康接口契约](../docs/module/health/api.md)
 - [AI 聊天业务需求](../docs/module/ai/requirements.md)
 
-旧 Nest 农业、健康 Contract、设计和实施记录位于 `docs/module/legacy/nest/`，默认不得作为当前实现依据。
+旧 Nest 农业、健康 Contract、设计和实施记录仍保留在 `docs/module/legacy/nest/`，默认不得作为当前实现依据。
 
 ## 许可
 

@@ -76,6 +76,8 @@ userId
 /api/health/knowledge
 ```
 
+健康模块资源 ID 使用正整数；客户端传入资源 ID 时必须作为整数处理。
+
 ---
 
 ## 2.3 输入校验
@@ -187,7 +189,7 @@ GET /api/health/profile
 
 ```json
 {
-  "id": "uuid",
+  "id": 1,
   "sex": "male",
   "birthDate": "2006-07-09",
   "heightCm": 175,
@@ -374,7 +376,7 @@ unit
 ```json
 {
   "metricType": "custom",
-  "templateId": "uuid",
+  "templateId": 1,
   "value": 38.5,
   "measuredAt": "2026-09-13T20:30:00+08:00"
 }
@@ -486,7 +488,7 @@ GET /api/health/metrics?page=1&pageSize=20
 {
   "items": [
     {
-      "id": "uuid",
+      "id": 1,
       "metricType": "temperature",
       "value": 38.5,
       "unit": "℃",
@@ -504,7 +506,7 @@ GET /api/health/metrics?page=1&pageSize=20
 
 ```json
 {
-  "id": "uuid",
+  "id": 1,
   "metricType": "blood_pressure",
   "systolic": 128,
   "diastolic": 82,
@@ -600,7 +602,7 @@ templateId
 例如：
 
 ```http
-GET /api/health/metrics/trend?templateId=uuid
+GET /api/health/metrics/trend?templateId=1
 ```
 
 不允许：
@@ -945,7 +947,7 @@ BMI
 
 ```json
 {
-  "id": "uuid",
+  "id": 1,
   "summary": "你近期存在头晕和乏力……",
   "concerns": [
     "近期睡眠时间偏少"
@@ -960,7 +962,7 @@ BMI
   "medicalAdvice": "如果症状持续加重或出现明显异常，应考虑及时就医。",
   "references": [
     {
-      "knowledgeId": "uuid",
+      "knowledgeId": 1,
       "title": "如何改善睡眠",
       "source": "某权威机构"
     }
@@ -1024,7 +1026,7 @@ pageSize
 {
   "items": [
     {
-      "id": "uuid",
+      "id": 1,
       "symptoms": [
         "dizziness",
         "fatigue"
@@ -1065,7 +1067,7 @@ GET /api/health/analyses/:id
 
 ```json
 {
-  "id": "uuid",
+  "id": 1,
   "input": {
     "symptoms": [
       "dizziness",
@@ -1183,7 +1185,7 @@ GET /api/health/knowledge?q=血压&category=health_metric&page=1&pageSize=20
 {
   "items": [
     {
-      "id": "uuid",
+      "id": 1,
       "title": "如何正确测量血压",
       "summary": "……",
       "category": "health_metric",
@@ -1220,7 +1222,7 @@ GET /api/health/knowledge/:id
 
 ```json
 {
-  "id": "uuid",
+  "id": 1,
   "title": "如何正确测量血压",
   "summary": "……",
   "content": "……",

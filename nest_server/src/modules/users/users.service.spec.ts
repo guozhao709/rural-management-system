@@ -13,7 +13,6 @@ describe('UsersService', () => {
     assign: jest.fn(),
   };
   const entityManager = { flush: jest.fn() };
-  const healthLifecycle = { purgeForUser: jest.fn() };
   let service: UsersService;
 
   const makeUser = (overrides: Partial<User> = {}): User =>
@@ -39,11 +38,9 @@ describe('UsersService', () => {
       Object.assign(entity, data),
     );
     entityManager.flush.mockResolvedValue(undefined);
-    healthLifecycle.purgeForUser.mockResolvedValue(undefined);
     service = new UsersService(
       users as unknown as EntityRepository<User>,
       entityManager as unknown as EntityManager,
-      healthLifecycle as unknown as import('../resident-health/health-data-lifecycle.service').HealthDataLifecycleService,
     );
   });
 
@@ -132,7 +129,6 @@ describe('UsersService', () => {
     await service.remove(1);
 
     expect(user.deletedAt).toBeInstanceOf(Date);
-    expect(healthLifecycle.purgeForUser).toHaveBeenCalledWith(1);
     await expect(service.findOne(1)).rejects.toBeInstanceOf(NotFoundException);
   });
 });

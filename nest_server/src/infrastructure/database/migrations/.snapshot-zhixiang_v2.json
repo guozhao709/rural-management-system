@@ -1603,7 +1603,1193 @@
       "comment": null
     },
     {
-      "name": "health_access_audits",
+      "name": "health_analyses",
+      "schema": "public",
+      "columns": {
+        "context_snapshot": {
+          "name": "context_snapshot",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer",
+          "generated": "by default as identity"
+        },
+        "input_snapshot": {
+          "name": "input_snapshot",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "result_snapshot": {
+          "name": "result_snapshot",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "json"
+        },
+        "schema_version": {
+          "name": "schema_version",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_analyses_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "user_id",
+            "created_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "idx_health_analyses_user_id_created_at",
+          "primary": false,
+          "unique": false,
+          "columns": [
+            {
+              "name": "user_id"
+            },
+            {
+              "name": "created_at",
+              "sort": "DESC"
+            }
+          ]
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "health_analyses_user_id_foreign": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "health_analyses_user_id_foreign",
+          "localTableName": "public.health_analyses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.users"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "health_knowledge",
+      "schema": "public",
+      "columns": {
+        "category": {
+          "name": "category",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 50,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer",
+          "generated": "by default as identity"
+        },
+        "is_published": {
+          "name": "is_published",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "source_name": {
+          "name": "source_name",
+          "type": "varchar(200)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 200,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "source_url": {
+          "name": "source_url",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "array"
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(200)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 200,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_knowledge_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "category",
+            "is_published"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "idx_health_knowledge_category_published",
+          "primary": false,
+          "unique": false
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {},
+      "comment": null
+    },
+    {
+      "name": "health_metric_records",
+      "schema": "public",
+      "columns": {
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "diastolic_value": {
+          "name": "diastolic_value",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "decimal"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer",
+          "generated": "by default as identity"
+        },
+        "measured_at": {
+          "name": "measured_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "metric_type": {
+          "name": "metric_type",
+          "type": "varchar(30)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [
+            "weight",
+            "blood_pressure",
+            "heart_rate",
+            "temperature",
+            "custom"
+          ],
+          "mappedType": "enum"
+        },
+        "numeric_value": {
+          "name": "numeric_value",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "decimal"
+        },
+        "systolic_value": {
+          "name": "systolic_value",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "decimal"
+        },
+        "template_id": {
+          "name": "template_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "unit": {
+          "name": "unit",
+          "type": "varchar(30)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 30,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_metric_records_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "template_id",
+            "measured_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "idx_health_metric_records_template_measured_at",
+          "primary": false,
+          "unique": false,
+          "columns": [
+            {
+              "name": "template_id"
+            },
+            {
+              "name": "measured_at",
+              "sort": "DESC"
+            }
+          ]
+        },
+        {
+          "columnNames": [
+            "user_id",
+            "metric_type",
+            "measured_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "idx_health_metric_records_user_type_measured_at",
+          "primary": false,
+          "unique": false,
+          "columns": [
+            {
+              "name": "user_id"
+            },
+            {
+              "name": "metric_type"
+            },
+            {
+              "name": "measured_at",
+              "sort": "DESC"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "health_metric_records_template_shape_check",
+          "expression": "((metric_type = 'custom'::text) AND (template_id IS NOT NULL)) OR ((metric_type = ANY (ARRAY['weight'::character varying, 'blood_pressure'::character varying, 'heart_rate'::character varying, 'temperature'::character varying][])) AND (template_id IS NULL))",
+          "definition": "CHECK (((((metric_type)::text = 'custom'::text) AND (template_id IS NOT NULL)) OR (((metric_type)::text = ANY ((ARRAY['weight'::character varying, 'blood_pressure'::character varying, 'heart_rate'::character varying, 'temperature'::character varying])::text[])) AND (template_id IS NULL))))",
+          "columnName": "metric_type"
+        },
+        {
+          "name": "health_metric_records_type_check",
+          "expression": "\"metric_type\" in ('weight', 'blood_pressure', 'heart_rate', 'temperature', 'custom')",
+          "definition": "check (\"metric_type\" in ('weight', 'blood_pressure', 'heart_rate', 'temperature', 'custom'))",
+          "columnName": "metric_type"
+        },
+        {
+          "name": "health_metric_records_value_shape_check",
+          "expression": "((metric_type = 'blood_pressure'::text) AND (numeric_value IS NULL) AND (systolic_value IS NOT NULL) AND (diastolic_value IS NOT NULL)) OR ((metric_type = ANY (ARRAY['weight'::character varying, 'heart_rate'::character varying, 'temperature'::character varying, 'custom'::character varying][])) AND (numeric_value IS NOT NULL) AND (systolic_value IS NULL) AND (diastolic_value IS NULL))",
+          "definition": "CHECK (((((metric_type)::text = 'blood_pressure'::text) AND (numeric_value IS NULL) AND (systolic_value IS NOT NULL) AND (diastolic_value IS NOT NULL)) OR (((metric_type)::text = ANY ((ARRAY['weight'::character varying, 'heart_rate'::character varying, 'temperature'::character varying, 'custom'::character varying])::text[])) AND (numeric_value IS NOT NULL) AND (systolic_value IS NULL) AND (diastolic_value IS NULL))))",
+          "columnName": "diastolic_value"
+        }
+      ],
+      "triggers": [],
+      "foreignKeys": {
+        "health_metric_records_template_id_foreign": {
+          "columnNames": [
+            "template_id"
+          ],
+          "constraintName": "health_metric_records_template_id_foreign",
+          "localTableName": "public.health_metric_records",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.health_metric_templates",
+          "deleteRule": "restrict"
+        },
+        "health_metric_records_user_id_foreign": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "health_metric_records_user_id_foreign",
+          "localTableName": "public.health_metric_records",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.users"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "health_metric_templates",
+      "schema": "public",
+      "columns": {
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "ended_at": {
+          "name": "ended_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer",
+          "generated": "by default as identity"
+        },
+        "metric_name": {
+          "name": "metric_name",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "related_system_metric_type": {
+          "name": "related_system_metric_type",
+          "type": "varchar(30)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 30,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "unit": {
+          "name": "unit",
+          "type": "varchar(30)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 30,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_metric_templates_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "constraint": false,
+          "keyName": "idx_health_metric_templates_user_id",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "user_id",
+            "ended_at"
+          ],
+          "composite": true,
+          "constraint": false,
+          "keyName": "idx_health_metric_templates_user_id_ended_at",
+          "primary": false,
+          "unique": false
+        }
+      ],
+      "checks": [
+        {
+          "name": "health_metric_templates_period_check",
+          "expression": "(ended_at IS NULL) OR (ended_at >= started_at)",
+          "definition": "CHECK (((ended_at IS NULL) OR (ended_at >= started_at)))",
+          "columnName": "ended_at"
+        },
+        {
+          "name": "health_metric_templates_related_type_check",
+          "expression": "(related_system_metric_type = ANY (ARRAY['weight'::character varying, 'blood_pressure'::character varying, 'heart_rate'::character varying, 'temperature'::character varying][])) OR (related_system_metric_type IS NULL)",
+          "definition": "CHECK ((((related_system_metric_type)::text = ANY ((ARRAY['weight'::character varying, 'blood_pressure'::character varying, 'heart_rate'::character varying, 'temperature'::character varying])::text[])) OR (related_system_metric_type IS NULL)))",
+          "columnName": "related_system_metric_type"
+        }
+      ],
+      "triggers": [],
+      "foreignKeys": {
+        "health_metric_templates_user_id_foreign": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "health_metric_templates_user_id_foreign",
+          "localTableName": "public.health_metric_templates",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.users"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "health_profiles",
+      "schema": "public",
+      "columns": {
+        "allergies": {
+          "name": "allergies",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "birth_date": {
+          "name": "birth_date",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "date"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "drinking_status": {
+          "name": "drinking_status",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "exercise_status": {
+          "name": "exercise_status",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "health_history": {
+          "name": "health_history",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "height_cm": {
+          "name": "height_cm",
+          "type": "numeric(5,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": 5,
+          "scale": 2,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "decimal"
+        },
+        "id": {
+          "name": "id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer",
+          "generated": "by default as identity"
+        },
+        "sex": {
+          "name": "sex",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "sleep_status": {
+          "name": "sleep_status",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "smoking_status": {
+          "name": "smoking_status",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_profiles_pkey1",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "health_profiles_user_id_key",
+          "primary": false,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "health_profiles_user_id_foreign": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "health_profiles_user_id_foreign",
+          "localTableName": "public.health_profiles",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.users"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "legacy_health_access_audits",
       "schema": "public",
       "columns": {
         "action": {
@@ -1815,7 +3001,7 @@
       "comment": null
     },
     {
-      "name": "health_assessments",
+      "name": "legacy_health_assessments",
       "schema": "public",
       "columns": {
         "completed_at": {
@@ -2142,18 +3328,18 @@
             "consent_id"
           ],
           "constraintName": "health_assessments_consent_id_foreign",
-          "localTableName": "public.health_assessments",
+          "localTableName": "public.legacy_health_assessments",
           "referencedColumnNames": [
             "id"
           ],
-          "referencedTableName": "public.health_consents"
+          "referencedTableName": "public.legacy_health_consents"
         },
         "health_assessments_user_id_foreign": {
           "columnNames": [
             "user_id"
           ],
           "constraintName": "health_assessments_user_id_foreign",
-          "localTableName": "public.health_assessments",
+          "localTableName": "public.legacy_health_assessments",
           "referencedColumnNames": [
             "id"
           ],
@@ -2164,7 +3350,7 @@
       "comment": null
     },
     {
-      "name": "health_consents",
+      "name": "legacy_health_consents",
       "schema": "public",
       "columns": {
         "granted_at": {
@@ -2301,7 +3487,7 @@
             "user_id"
           ],
           "constraintName": "health_consents_user_id_foreign",
-          "localTableName": "public.health_consents",
+          "localTableName": "public.legacy_health_consents",
           "referencedColumnNames": [
             "id"
           ],
@@ -2312,7 +3498,7 @@
       "comment": null
     },
     {
-      "name": "health_knowledge_articles",
+      "name": "legacy_health_knowledge_articles",
       "schema": "public",
       "columns": {
         "created_at": {
@@ -2402,7 +3588,7 @@
       "comment": null
     },
     {
-      "name": "health_knowledge_versions",
+      "name": "legacy_health_knowledge_versions",
       "schema": "public",
       "columns": {
         "article_id": {
@@ -2668,18 +3854,18 @@
             "article_id"
           ],
           "constraintName": "health_knowledge_versions_article_id_foreign",
-          "localTableName": "public.health_knowledge_versions",
+          "localTableName": "public.legacy_health_knowledge_versions",
           "referencedColumnNames": [
             "id"
           ],
-          "referencedTableName": "public.health_knowledge_articles",
+          "referencedTableName": "public.legacy_health_knowledge_articles",
           "deleteRule": "cascade"
         }
       },
       "comment": null
     },
     {
-      "name": "health_measurements",
+      "name": "legacy_health_measurements",
       "schema": "public",
       "columns": {
         "created_at": {
@@ -2880,7 +4066,7 @@
             "user_id"
           ],
           "constraintName": "health_measurements_user_id_foreign",
-          "localTableName": "public.health_measurements",
+          "localTableName": "public.legacy_health_measurements",
           "referencedColumnNames": [
             "id"
           ],
@@ -2891,7 +4077,7 @@
       "comment": null
     },
     {
-      "name": "health_profiles",
+      "name": "legacy_health_profiles",
       "schema": "public",
       "columns": {
         "allergies_ciphertext": {
@@ -3034,7 +4220,7 @@
             "user_id"
           ],
           "constraintName": "health_profiles_user_id_foreign",
-          "localTableName": "public.health_profiles",
+          "localTableName": "public.legacy_health_profiles",
           "referencedColumnNames": [
             "id"
           ],
