@@ -16,6 +16,7 @@ Backend 不依赖 `nest_front/` Source Code，也不依赖客户端逻辑保证�
 - `docs/module/index.md`
 - 当前模块 Requirement、Design、Database Design、API 设计基线，以及已生成时的严格 API Contract
 - `nest_server/docs/technologyStack/index.md`
+- 涉及后端架构、AI、Agent、Tool、持久化或实时通信时：`nest_server/docs/technical-baseline.md`
 - `docs/development/index.md`
 
 NestJS、TypeScript、MikroORM 和 Testing 的通用实践使用 Approved Skill；本文件只定义项目特有边界。

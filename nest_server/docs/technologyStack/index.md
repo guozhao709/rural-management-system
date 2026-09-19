@@ -1,5 +1,7 @@
 ## Backend Technology Stack
 
+跨业务域的后端架构、AI、Agent、Tool、持久化和实时通信边界见 [后端技术基线](../technical-baseline.md)；本页仅列出当前技术栈。
+
 ### Runtime & Language
 
 - Node.js 24

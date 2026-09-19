@@ -102,6 +102,7 @@ nest_server/
 
 - [Backend Agent 规范](./AGENTS.md)
 - [Backend 技术栈](./docs/technologyStack/index.md)
+- [后端技术基线](./docs/technical-baseline.md)
 - [业务模块注册表](../docs/module/index.md)
 - [认证 API 设计基线](../docs/module/auth/api.md)
 - [农业业务需求](../docs/module/agriculture/requirements.md)
