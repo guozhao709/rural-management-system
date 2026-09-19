@@ -1,8 +1,8 @@
-# Health API Contract — Runtime Reconstruction
+# Health API Contract — Verified Runtime
 
 > Status: **VERIFIED (static implementation audit)**  
 > Evidence scope: `nest_server/src/modules/health`, application setup, global response/exception handling, and user authentication guard, reviewed on 2026-09-18.  
-> Authority for this document: current executable backend source. This is a reconstruction report, not a change to the frozen design baseline in `api.md`.
+> Document role: strict API Contract generated from the current verified backend behavior. Its design baseline remains the frozen `api.md`; this document does not silently change that baseline.
 
 ## 1. Contract metadata and evidence labels
 

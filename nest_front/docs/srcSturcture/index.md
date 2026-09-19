@@ -204,7 +204,7 @@ Backend API
 
 ## Realtime Communication Lifecycle
 
-普通 CRUD 和配置读取使用 HTTP。需要实时通信时，根据已确认的 API Contract 选择协议；采用浏览器原生 `WebSocket` 的 Feature 遵循下方生命周期边界，不因本节存在而默认建立实时连接。
+普通 CRUD 和配置读取使用 HTTP。需要实时通信时，根据已生成的严格 API Contract 选择协议；采用浏览器原生 `WebSocket` 的 Feature 遵循下方生命周期边界，不因本节存在而默认建立实时连接。
 
 ```text
 Feature Component

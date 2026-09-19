@@ -2,7 +2,7 @@
 
 基于 NestJS 11、TypeScript 6、PostgreSQL 18 和 MikroORM 7 的后端应用。认证与用户管理是当前能力；源码中的农业模块属于待替换的 Nest 旧业务实现，Nest 旧健康运行时代码已移除，新健康业务尚未实现。
 
-业务目标和接口细节以 Root `docs/module/index.md` 路由的当前 Requirement 与 API Contract 为准；本 README 只提供开发环境入口。
+业务目标和接口细节以 Root `docs/module/index.md` 路由的当前 Requirement、API 设计基线和已生成的严格 API Contract 为准；本 README 只提供开发环境入口。
 
 ## 环境要求与安装
 
@@ -103,11 +103,12 @@ nest_server/
 - [Backend Agent 规范](./AGENTS.md)
 - [Backend 技术栈](./docs/technologyStack/index.md)
 - [业务模块注册表](../docs/module/index.md)
-- [认证接口](../docs/module/auth/api.md)
+- [认证 API 设计基线](../docs/module/auth/api.md)
 - [农业业务需求](../docs/module/agriculture/requirements.md)
 - [健康业务需求](../docs/module/health/requirements.md)
 - [健康数据库设计](../docs/module/health/database.md)
-- [健康接口契约](../docs/module/health/api.md)
+- [健康 API 设计基线](../docs/module/health/api.md)
+- [健康严格 API Contract](../docs/module/health/api-contract.md)
 - [AI 聊天业务需求](../docs/module/ai/requirements.md)
 
 旧 Nest 农业、健康 Contract、设计和实施记录仍保留在 `docs/module/legacy/nest/`，默认不得作为当前实现依据。

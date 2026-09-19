@@ -1,10 +1,11 @@
 # 用户、管理员、认证与鉴权接口文档
 
-> Document Role: CURRENT_CONTRACT  
+> Document Role: API_DESIGN_BASELINE
+>
 > Domain: auth  
 > Implementation State: IMPLEMENTED
 
-本文档覆盖「智乡云 V2」当前已实现的用户、管理员、认证与鉴权接口，供前端登录、路由守卫和后台管理页面联调使用。
+本文档定义「智乡云 V2」用户、管理员、认证与鉴权接口的设计基线。Backend 完成并验证后，应根据实际行为生成同目录 `api-contract.md` 作为严格 API Contract；本文不替代该 Contract。
 
 Swagger 页面：`/api/docs`。以下路径均以服务地址为前缀，例如本地环境为 `http://localhost:3000`。
 

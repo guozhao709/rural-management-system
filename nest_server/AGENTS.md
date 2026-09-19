@@ -14,7 +14,7 @@ Backend 不依赖 `nest_front/` Source Code，也不依赖客户端逻辑保证�
 开始 Backend 任务前，按范围读取：
 
 - `docs/module/index.md`
-- 当前模块 Requirement、Design、Database Design 和 API Contract
+- 当前模块 Requirement、Design、Database Design、API 设计基线，以及已生成时的严格 API Contract
 - `nest_server/docs/technologyStack/index.md`
 - `docs/development/index.md`
 
@@ -40,8 +40,9 @@ NestJS、TypeScript、MikroORM 和 Testing 的通用实践使用 Approved Skill�
 
 ## API & Security
 
-- API Contract 仅以 `docs/module/<domain>/api.md` 为准。
-- Contract Change 必须检查 Frontend Consumer。
+- API 设计基线仅以 `docs/module/<domain>/api.md` 为准；严格 API Contract 仅以已生成的 `docs/module/<domain>/api-contract.md` 为准。
+- 实施 HTTP Endpoint 前确认 API 设计基线；Backend 完成并验证后依据实际行为生成或更新严格 API Contract。未生成严格 Contract 时，不得把实现直接声明为 Frontend 的契约。
+- 严格 Contract Change 必须检查 Frontend Consumer。
 - Authentication 和 Authorization 变更必须验证成功路径与拒绝路径。
 - 不将 Stack、Credential、数据库细节或内部异常直接返回 Client。
 - 不根据现有 Backend 实现单方面定义新的 API Behavior。

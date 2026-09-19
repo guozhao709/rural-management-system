@@ -25,7 +25,8 @@ Agent 负责在授权范围内完成分析、设计、实现、验证和审查�
 | Requirement | `docs/module/<domain>/requirements.md` |
 | 业务/领域设计 | `docs/module/<domain>/design.md` |
 | 数据库设计 | `docs/module/<domain>/database.md` |
-| API Contract | `docs/module/<domain>/api.md` |
+| API 设计基线 | `docs/module/<domain>/api.md` |
+| 严格 API Contract | `docs/module/<domain>/api-contract.md`（Backend 完成后，依据实际已验证行为生成） |
 | Frontend 规则 | `nest_front/AGENTS.md`、`nest_front/docs/` |
 | Backend 规则 | `nest_server/AGENTS.md`、`nest_server/docs/` |
 | 开发与验证命令 | `docs/development/index.md` |
@@ -36,12 +37,14 @@ Agent 负责在授权范围内完成分析、设计、实现、验证和审查�
 1. 当前明确授权；
 2. 适用的 `AGENTS.md` 硬约束；
 3. 当前 Requirement；
-4. 已批准 Design、Database Design 或 API Contract，各自在其职责范围内生效；
+4. 已批准 Design、Database Design、API 设计基线或严格 API Contract，各自在其职责范围内生效；
 5. 其他正式项目文档；
 6. Existing Implementation；
 7. Agent Assumption。
 
-Existing Implementation 只是现状证据，不自动成为目标 Requirement、Design 或 Contract。
+`api.md` 是 API 设计基线，定义预期接口行为；它不是可直接替代实际接口的严格 Contract。Backend 完成并验证后，必须根据实际行为生成 `api-contract.md`，作为 Frontend 与 Backend 的严格集成依据。两者存在差异时，须记录并经正常设计或实现变更解决，不得静默以任一方覆盖另一方。
+
+Existing Implementation 只是现状证据，不自动成为目标 Requirement、Design 或 Contract；仅经核对、生成的 `api-contract.md` 可作为当前严格接口依据。
 
 ## Workflow
 
@@ -58,8 +61,8 @@ Existing Implementation 只是现状证据，不自动成为目标 Requirement�
 ### Design Gates
 
 - Backend 业务逻辑和 Database 实施必须有对应的已批准业务或数据库设计。
-- HTTP Endpoint、Frontend 集成及其他跨应用行为必须有当前 API Contract。
-- Contract 缺失时，不得根据旧 API、DTO、Route 或现存实现自行补全。
+- Backend HTTP Endpoint 必须有当前 API 设计基线；Frontend 集成及其他实际跨应用行为必须有当前严格 API Contract。
+- API 设计基线或严格 Contract 缺失时，不得根据旧 API、DTO、Route 或现存实现自行补全。
 - Contract Change 必须同时检查 Backend Provider 与 Frontend Consumer。
 
 ## Decision Heuristics
@@ -69,7 +72,7 @@ Existing Implementation 只是现状证据，不自动成为目标 Requirement�
 | 局部实现存在多种等价方案 | 选择最小且符合现有架构的方案，并说明判断 |
 | 改变架构、模块职责或依赖方向 | 先取得明确批准 |
 | 新增或替换重要依赖 | 说明必要性、替代方案和影响，交由用户决定 |
-| 修改 Public API | 先确认 Contract，并检查 Provider 和 Consumer |
+| 修改 Public API | 先确认 API 设计基线；严格 Contract 存在时同步更新并检查 Provider 和 Consumer |
 | 修改 Schema 或 Migration | 先确认设计、现有数据影响和迁移策略 |
 | 删除已有文件或资源 | 不仅凭静态搜索删除；先确认用途和影响 |
 | 发现范围外问题 | 记录并报告，不顺带修复 |

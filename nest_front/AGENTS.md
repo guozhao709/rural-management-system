@@ -14,7 +14,7 @@ Frontend 不负责 Backend Business Rule、Persistence 或服务端安全边界�
 开始 Frontend 任务前，按范围读取：
 
 - `docs/module/index.md`
-- 当前模块 Requirement、Design 和 API Contract
+- 当前模块 Requirement、Design、API 设计基线，以及严格 API Contract（Frontend 集成时必需）
 - `nest_front/docs/technologyStack/index.md`
 - `nest_front/docs/srcSturcture/index.md`
 - `nest_front/docs/ui/index.md`
@@ -25,6 +25,7 @@ Frontend 不负责 Backend Business Rule、Persistence 或服务端安全边界�
 - 不依赖或导入 `nest_server/` Source Code、Entity 或 DTO。
 - API Request 使用现有 Client/Service abstraction，不散落在 Page、Component、Store 或 Event Handler。
 - 不用 Frontend Validation 或隐藏 UI 替代 Backend Validation/Authorization。
+- Frontend 集成仅以 `docs/module/<domain>/api-contract.md` 为严格接口依据；`api.md` 仅为设计基线，不能替代严格 Contract。
 - 不根据 Backend 内部实现推导 Response 或修改 Contract。
 - Contract Change 必须检查 Backend Provider。
 - 仅在存在稳定复用边界时提升为 Shared Component、Composable、Store 或 Util。

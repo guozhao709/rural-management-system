@@ -1,6 +1,6 @@
 # Health API Contract Drift Report
 
-> Compared sources: current runtime implementation (baseline) vs `docs/module/health/api.md`, `nest_front/docs/health-api-integration.md`, and `nest_front/docs/health-frontend-implementation.md`.  
+> Compared sources: current runtime implementation vs `docs/module/health/api.md`, `nest_front/docs/health-api-integration.md`, and `nest_front/docs/health-frontend-implementation.md`.
 > Review date: 2026-09-18. No source or business code was modified.
 
 ## Summary
@@ -37,4 +37,4 @@ The current backend exposes **15**, not 14, user-facing health endpoints. The ol
 
 ## Suggested disposition
 
-Keep `api.md` frozen as required by the project rules. Use `api-contract.md` for current-code integration work and route any desired behavior correction through the normal approved Contract/design process; this audit does not authorize changing either backend behavior or the frozen baseline.
+Keep `api.md` frozen as the design baseline. Use `api-contract.md` as the strict current-code integration Contract, and route any desired behavior correction through the normal approved baseline-design or implementation-change process; this audit does not authorize changing either backend behavior or the frozen baseline.

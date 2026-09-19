@@ -13,7 +13,7 @@
 
 1. 以实际使用者选择 User 或 Admin，不以路由、技术模块或组件库判断。
 2. 阅读 `foundation.md` 与对应端规范；同时涉及两端时分别遵循。
-3. 页面信息架构、布局和业务组件由当前 Requirement、Design 与 API Contract 决定；本目录不固定页面布局。
+3. 页面信息架构、布局和业务组件由当前 Requirement、Design、API 设计基线与适用的严格 API Contract 决定；本目录不固定页面布局。
 4. 优先复用当前 SPA 已有组件和主题 Token。Vant、Element Plus 仅是组件基础，不得以其默认样式突破本规范。
 
 ## 开发检查

@@ -1,7 +1,7 @@
 # 健康模块用户端接口对接说明
 
 > 适用范围：`nest_front/users` 健康功能。  
-> 接口基线：[健康模块 API Contract](../../docs/module/health/api.md)。本文不新增或修改接口契约。
+> 严格接口依据：[健康模块 API Contract](../../docs/module/health/api-contract.md)；设计基线见 [`api.md`](../../docs/module/health/api.md)。本文不新增或修改接口契约。
 
 ## 1. 对接边界
 
@@ -56,7 +56,7 @@ src/api/request.ts
 | `blood_pressure` | `systolic`, `diastolic`, `measuredAt` | `value`, `unit`, `templateId` |
 | `custom` | `templateId`, `value`, `measuredAt` | `unit`, `systolic`, `diastolic` |
 
-`measuredAt` 传 ISO 8601 日期时间（含时区）；日期筛选 `from`、`to` 使用 Contract 中的日期格式。提交前做数值、必填和日期有效性校验，但以后端 Zod 校验结果为准。
+`measuredAt` 传 ISO 8601 日期时间（含时区）；日期筛选 `from`、`to` 使用严格 Contract 中的日期格式。提交前做数值、必填和日期有效性校验，但以后端 Zod 校验结果为准。
 
 ## 4. 建议的 Feature Type 边界
 
@@ -89,7 +89,7 @@ interface HealthProfile {
 }
 ```
 
-指标记录、趋势、模板、分析和知识的完整字段以 API Contract 的示例为准。尤其应将单值趋势与血压趋势定义成联合类型，而不是以大量可选字段渲染同一图表。
+指标记录、趋势、模板、分析和知识的完整字段以严格 API Contract 的示例为准。尤其应将单值趋势与血压趋势定义成联合类型，而不是以大量可选字段渲染同一图表。
 
 ```ts
 type SingleValueTrend = {
@@ -132,4 +132,3 @@ type BloodPressureTrend = {
 2. 使用正常用户端登录流程取得 JWT；无需也不得将 LLM 密钥写入前端环境变量。
 3. AI 分析依赖后端 LLM 配置；健康知识列表需后端已有已发布知识。开发环境可由后端 `pnpm seed:health-knowledge` 准备演示数据。
 4. 前端只依赖上述 Contract；不得调用旧 Nest 健康路由或 Legacy Express 路由。
-

@@ -21,8 +21,8 @@ Last reviewed: 2026-09-15
 
 ## Current Business State
 
-- `health` 已有当前冻结的 Requirement、Database Design 和 API Contract；新业务代码尚未据此完成替换。
-- `agriculture`、`ai` 已有 Requirement，但 Design、Database Design 和 API Contract 尚未完整建立。
+- `health` 已有当前冻结的 Requirement、Database Design、API 设计基线，以及依据当前已验证 Backend 生成的严格 API Contract；Frontend、健康知识管理入口与业务专项验收待完成。
+- `agriculture` 已有 Requirement 与 API 设计基线；`ai` 已有 Requirement。二者均未生成严格 API Contract。
 - 当前 Nest agriculture 实现仍是冻结的 Legacy 实现；Nest `resident-health` 运行时代码已移除。
 - 旧健康数据库对象仍由历史 Migration 定义，待新健康实现阶段通过 replacement Migration 处理。
 
