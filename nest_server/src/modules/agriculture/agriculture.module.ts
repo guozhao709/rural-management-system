@@ -1,45 +1,39 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import {
-  AgricultureController,
-  AdminAgricultureController,
-} from './controllers/agriculture.controller';
+import { AgricultureV2Controller } from './controllers/agriculture-v2.controller';
 import { Crop } from './entities/crop.entity';
 import { CropAlias } from './entities/crop-alias.entity';
 import { AgricultureKnowledge } from './entities/agriculture-knowledge.entity';
-import { CropAnalysis } from './entities/crop-analysis.entity';
-import { CropAnalysisKnowledgeRef } from './entities/crop-analysis-knowledge-ref.entity';
-import { STRUCTURED_LLM_PORT } from './ports/structured-llm.port';
-import { WEATHER_CONTEXT_PORT } from './ports/weather-context.port';
-import { UnavailableStructuredLlmAdapter } from './adapters/unavailable-llm.adapter';
-import { UnavailableWeatherAdapter } from './adapters/unavailable-weather.adapter';
-import { OpenAiCompatibleStructuredLlmAdapter } from './adapters/openai-compatible-structured-llm.adapter';
-import { AgricultureAnalysisService } from './services/agriculture-analysis.service';
-import { AgricultureKnowledgeService } from './services/agriculture-knowledge.service';
-import { AgricultureRetrievalFacade } from './services/agriculture-retrieval.facade';
-import { CropCatalogService } from './services/crop-catalog.service';
+import { AgricultureGrowthAnalysis, AgricultureGrowthMetric, AgricultureGrowthMetricRecord, AgricultureLand, AgriculturePlanting, AgriculturePlantingEvaluation } from './entities/agriculture-v2.entity';
+import { AGRICULTURE_V2_LLM_PORT } from './ports/agriculture-v2-llm.port';
+import { AGRICULTURE_V2_WEATHER_PORT } from './ports/agriculture-v2-weather.port';
+import { AgricultureV2LlmAdapter } from './adapters/agriculture-v2-llm.adapter';
+import { AgricultureV2UnavailableWeatherAdapter } from './adapters/agriculture-v2-unavailable-weather.adapter';
+import { AgricultureV2AnalysisService } from './services/agriculture-v2-analysis.service';
+import { AgricultureV2Service } from './services/agriculture-v2.service';
 @Module({
   imports: [
     MikroOrmModule.forFeature([
       Crop,
       CropAlias,
       AgricultureKnowledge,
-      CropAnalysis,
-      CropAnalysisKnowledgeRef,
+      AgricultureLand,
+      AgriculturePlanting,
+      AgricultureGrowthMetric,
+      AgricultureGrowthMetricRecord,
+      AgriculturePlantingEvaluation,
+      AgricultureGrowthAnalysis,
     ]),
   ],
-  controllers: [AgricultureController, AdminAgricultureController],
+  controllers: [AgricultureV2Controller],
   providers: [
-    CropCatalogService,
-    AgricultureKnowledgeService,
-    AgricultureAnalysisService,
-    AgricultureRetrievalFacade,
-    UnavailableStructuredLlmAdapter,
-    OpenAiCompatibleStructuredLlmAdapter,
-    UnavailableWeatherAdapter,
-    { provide: STRUCTURED_LLM_PORT, useExisting: OpenAiCompatibleStructuredLlmAdapter },
-    { provide: WEATHER_CONTEXT_PORT, useExisting: UnavailableWeatherAdapter },
+    AgricultureV2Service,
+    AgricultureV2AnalysisService,
+    AgricultureV2LlmAdapter,
+    AgricultureV2UnavailableWeatherAdapter,
+    { provide: AGRICULTURE_V2_LLM_PORT, useExisting: AgricultureV2LlmAdapter },
+    { provide: AGRICULTURE_V2_WEATHER_PORT, useExisting: AgricultureV2UnavailableWeatherAdapter },
   ],
-  exports: [AgricultureRetrievalFacade],
+  exports: [AgricultureV2Service],
 })
 export class AgricultureModule {}

@@ -13,9 +13,13 @@ export class AgricultureKnowledge {
   @Property({ fieldName: 'tags', type: 'text[]', defaultRaw: "'{}'" }) tags: string[] = [];
   @Property({ fieldName: 'region_codes', type: 'text[]', defaultRaw: "'{}'" })
   regionCodes: string[] = [];
+  @Property({ fieldName: 'region_tags', type: 'text[]', defaultRaw: "'{}'" })
+  regionTags: string[] = [];
   @Property({ fieldName: 'is_general', type: 'boolean', default: false }) isGeneral = false;
   @Property({ fieldName: 'source_name', type: 'string', length: 255, nullable: true }) sourceName:
     string | null = null;
+  @Property({ fieldName: 'source_title', type: 'string', length: 255, nullable: true })
+  sourceTitle: string | null = null;
   @Property({ fieldName: 'source_url', type: 'string', length: 1000, nullable: true }) sourceUrl:
     string | null = null;
   @Property({ fieldName: 'valid_until', type: 'date', nullable: true }) validUntil: string | null =

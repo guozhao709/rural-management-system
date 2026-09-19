@@ -7,6 +7,14 @@ import { CropAlias } from '../../modules/agriculture/entities/crop-alias.entity'
 import { CropAnalysisKnowledgeRef } from '../../modules/agriculture/entities/crop-analysis-knowledge-ref.entity';
 import { CropAnalysis } from '../../modules/agriculture/entities/crop-analysis.entity';
 import { Crop } from '../../modules/agriculture/entities/crop.entity';
+import {
+  AgricultureGrowthAnalysis,
+  AgricultureGrowthMetric,
+  AgricultureGrowthMetricRecord,
+  AgricultureLand,
+  AgriculturePlanting,
+  AgriculturePlantingEvaluation,
+} from '../../modules/agriculture/entities/agriculture-v2.entity';
 import { User } from '../../modules/users/user.entity';
 import { HealthProfile } from '../../modules/health/entities/health-profile.entity';
 import { HealthMetricTemplate } from '../../modules/health/entities/health-metric-template.entity';
@@ -29,6 +37,12 @@ const entities = [
   AgricultureKnowledge,
   CropAnalysis,
   CropAnalysisKnowledgeRef,
+  AgricultureLand,
+  AgriculturePlanting,
+  AgricultureGrowthMetric,
+  AgricultureGrowthMetricRecord,
+  AgriculturePlantingEvaluation,
+  AgricultureGrowthAnalysis,
   HealthProfile,
   HealthMetricTemplate,
   HealthMetricRecord,

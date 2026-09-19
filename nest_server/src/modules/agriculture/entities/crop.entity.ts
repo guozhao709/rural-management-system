@@ -10,6 +10,15 @@ export class Crop {
   @Property({ fieldName: 'scientific_name', type: 'string', length: 150, nullable: true })
   scientificName: string | null = null;
   @Property({ type: 'string', length: 16 }) status: CropStatus = CropStatus.Active;
+  @Property({ type: 'text', nullable: true }) introduction: string | null = null;
+  @Property({ fieldName: 'suitable_environment', type: 'text', nullable: true })
+  suitableEnvironment: string | null = null;
+  @Property({ fieldName: 'growth_stages', type: 'json', nullable: true })
+  growthStages: string[] | null = null;
+  @Property({ fieldName: 'management_notes', type: 'text', nullable: true })
+  managementNotes: string | null = null;
+  @Property({ fieldName: 'common_pests', type: 'json', nullable: true })
+  commonPests: string[] | null = null;
   @OneToMany(() => CropAlias, (alias) => alias.crop) aliases = new Collection<CropAlias>(this);
   @Property({ fieldName: 'created_at', type: 'timestamptz', onCreate: () => new Date() })
   createdAt = new Date();

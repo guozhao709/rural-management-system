@@ -19,6 +19,8 @@ import { User, UserGender } from '../src/modules/users/user.entity';
 import { UsersService } from '../src/modules/users/users.service';
 import { AgricultureAnalysisService } from '../src/modules/agriculture/services/agriculture-analysis.service';
 import { AgricultureKnowledgeService } from '../src/modules/agriculture/services/agriculture-knowledge.service';
+import { AgricultureV2AnalysisService } from '../src/modules/agriculture/services/agriculture-v2-analysis.service';
+import { AgricultureV2Service } from '../src/modules/agriculture/services/agriculture-v2.service';
 import { CropCatalogService } from '../src/modules/agriculture/services/crop-catalog.service';
 import { HealthService } from '../src/modules/health/health.service';
 import { HealthAnalysisService } from '../src/modules/health/health-analysis.service';
@@ -83,6 +85,7 @@ describe('Application (e2e)', () => {
     authenticateUserAccess: jest.fn(),
     authenticateAdminAccess: jest.fn(),
   };
+  const agricultureV2Service = { listLands: jest.fn() };
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
@@ -103,6 +106,10 @@ describe('Application (e2e)', () => {
       .overrideProvider(AgricultureKnowledgeService)
       .useValue({})
       .overrideProvider(AgricultureAnalysisService)
+      .useValue({})
+      .overrideProvider(AgricultureV2Service)
+      .useValue(agricultureV2Service)
+      .overrideProvider(AgricultureV2AnalysisService)
       .useValue({})
       .overrideProvider(HealthService)
       .useValue({})
@@ -168,6 +175,11 @@ describe('Application (e2e)', () => {
       }
       throw new UnauthorizedException('认证凭证无效');
     });
+    agricultureV2Service.listLands.mockResolvedValue([
+      {
+        id: 'd25b3c31-7335-466d-bf94-55260a77c507', name: '家后菜地', province: '陕西省', city: '西安市', district: '长安区', plantingEnvironment: 'open_field', areaValue: null, areaUnit: null, soil: null, irrigation: null, drainage: null, description: null, createdAt: new Date('2026-09-19T00:00:00.000Z'), updatedAt: new Date('2026-09-19T00:00:00.000Z'),
+      },
+    ]);
   });
 
   it('GET /health returns the standard success envelope', async () => {
@@ -179,6 +191,14 @@ describe('Application (e2e)', () => {
         message: '服务正常',
         data: { status: 'ok' },
       });
+  });
+
+  it('registers the V2 land endpoint behind the user guard and passes current user identity only', async () => {
+    await request(httpServer).get('/api/agriculture/lands').expect(401);
+    const response = await request(httpServer).get('/api/agriculture/lands').set('Authorization', 'Bearer user-token').expect(200);
+    expect(agricultureV2Service.listLands).toHaveBeenCalledWith(1);
+    const body = response.body as unknown as { data: Array<{ id: string; name: string }> };
+    expect(body.data[0]).toMatchObject({ id: 'd25b3c31-7335-466d-bf94-55260a77c507', name: '家后菜地' });
   });
 
   it('GET /api/docs exposes Swagger outside production', async () => {
